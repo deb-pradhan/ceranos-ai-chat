@@ -19,11 +19,15 @@ interface Message {
 interface ChatInterfaceProps {
   selectedChatId: string | null;
   onNewChat: () => void;
+  onToggleSidebar: () => void;
+  isSidebarOpen: boolean;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({ 
   selectedChatId, 
-  onNewChat 
+  onNewChat,
+  onToggleSidebar,
+  isSidebarOpen
 }) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -190,7 +194,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   return (
     <div className="flex flex-col h-full bg-bg-base">
-      <TopBar />
+      <TopBar onToggleSidebar={onToggleSidebar} isSidebarOpen={isSidebarOpen} />
       
       <div className="flex-1 flex flex-col overflow-hidden">
         {showInstructions && (

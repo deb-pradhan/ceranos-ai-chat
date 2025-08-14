@@ -1,18 +1,19 @@
 
 import React, { useState } from 'react';
-import { Wifi, WifiOff, Moon, Sun, Settings } from 'lucide-react';
+import { Wifi, WifiOff, Moon, Sun, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { useTheme } from '@/hooks/useTheme';
+import { useIsMobile } from '@/hooks/use-mobile';
 
-export const TopBar: React.FC = () => {
+interface TopBarProps {
+  onToggleSidebar: () => void;
+  isSidebarOpen: boolean;
+}
+
+export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarOpen }) => {
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'connecting' | 'disconnected'>('connected');
   const { theme, toggleTheme } = useTheme();
+  const isMobile = useIsMobile();
 
   const getConnectionIcon = () => {
     switch (connectionStatus) {
@@ -37,44 +38,39 @@ export const TopBar: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-end h-12 px-6 border-b border-border-line bg-bg-base">
-      <div className="flex items-center gap-4">
+    <div className={`flex items-center justify-between h-12 ${isMobile ? 'px-4' : 'px-6'} border-b border-border-line bg-bg-base`}>
+      {/* Left Section */}
+      <div className="flex items-center gap-3">
+        {/* Mobile hamburger menu */}
+        {isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleSidebar}
+            className="h-8 w-8 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
+          >
+            <Menu className="w-4 h-4" />
+          </Button>
+        )}
+        
         {/* Connection status */}
-        <div className="flex items-center gap-2 px-2">
+        <div className="flex items-center gap-2">
           {getConnectionIcon()}
-          <span className="text-xs text-text-secondary">{getConnectionText()}</span>
+          {!isMobile && (
+            <span className="text-xs text-text-secondary">{getConnectionText()}</span>
+          )}
         </div>
-
-        {/* Theme toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleTheme}
-          className="h-8 w-8 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
-        >
-          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-        </Button>
-
-        {/* Settings menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-text-secondary hover:text-text-primary hover:bg-bg-panel">
-              <Settings className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="border-border-line bg-bg-panel">
-            <DropdownMenuItem className="text-text-primary hover:bg-bg-base">
-              Preferences
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-text-primary hover:bg-bg-base">
-              API Settings
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-text-primary hover:bg-bg-base">
-              Export Chat
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
+
+      {/* Theme toggle */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleTheme}
+        className="h-8 w-8 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
+      >
+        {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      </Button>
     </div>
   );
 };

@@ -15,9 +15,10 @@ import {
 interface AppSidebarProps {
   selectedChatId: string | null;
   onSelectChat: (chatId: string | null) => void;
+  isMobile?: boolean;
 }
 
-export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelectChat }) => {
+export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelectChat, isMobile = false }) => {
   const { user, signOut } = useAuth();
   const { chats, loading, deleteChat, updateChatTitle } = useChatHistory();
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
@@ -59,17 +60,17 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
   };
 
   return (
-    <div className="w-80 h-full bg-bg-panel border-r border-border-line flex flex-col">
+    <div className={`${isMobile ? 'w-80' : 'w-80'} h-full bg-bg-panel border-r border-border-line flex flex-col`}>
       {/* Header */}
-      <div className="h-16 px-6 flex items-center border-b border-border-line">
-        <h1 className="text-2xl font-brand text-text-primary">CERANOS</h1>
+      <div className={`h-16 ${isMobile ? 'px-4' : 'px-6'} flex items-center border-b border-border-line`}>
+        <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-brand text-text-primary`}>CERANOS</h1>
       </div>
 
       {/* New Chat Button */}
       <div className="p-4">
         <Button
           onClick={handleNewChat}
-          className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
+          className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-11' : ''}`}
         >
           <Plus className="w-4 h-4 mr-2" />
           New Chat
@@ -88,7 +89,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
       </div>
 
       {/* Chat History */}
-      <div className="flex-1 px-4 mt-6">
+      <div className={`flex-1 ${isMobile ? 'px-3' : 'px-4'} mt-6`}>
         <h3 className="text-sm font-medium text-text-secondary mb-3">Recent Chats</h3>
         <ScrollArea className="h-full">
           {loading ? (
@@ -108,7 +109,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
               {chats.map((chat) => (
                 <div
                   key={chat.id}
-                  className={`group relative flex items-center p-3 cursor-pointer transition-smooth hover:bg-bg-base ${
+                  className={`group relative flex items-center ${isMobile ? 'p-2.5' : 'p-3'} cursor-pointer transition-smooth hover:bg-bg-base ${
                     selectedChatId === chat.id 
                       ? 'bg-bg-base border-l-2 border-l-accent-blue' 
                       : ''
@@ -171,19 +172,19 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
       </div>
 
       {/* Authentication Section */}
-      <div className="p-4 border-t border-border-line mt-auto">
+      <div className={`${isMobile ? 'p-3' : 'p-4'} border-t border-border-line mt-auto`}>
         {user ? (
           // Authenticated user
           <>
             <div className="mb-3">
-              <p className="text-xs text-text-secondary truncate">
+              <p className={`${isMobile ? 'text-xs' : 'text-xs'} text-text-secondary truncate`}>
                 {user.email}
               </p>
             </div>
             <Button
               variant="outline"
               onClick={handleLogout}
-              className="w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base"
+              className={`w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base ${isMobile ? 'h-10' : ''}`}
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
@@ -199,7 +200,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
             </div>
             <Button
               onClick={() => setShowLoginPopup(true)}
-              className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
+              className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-10' : ''}`}
             >
               <LogIn className="w-4 h-4 mr-2" />
               Sign In

@@ -52,9 +52,9 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
   onExampleClick 
 }) => {
   return (
-    <Card className="mx-6 mt-6 mb-4 border-border-line bg-bg-panel">
+    <Card className="mx-4 md:mx-6 mt-4 md:mt-6 mb-4 border-border-line bg-bg-panel">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <CardTitle className="text-lg font-semibold text-text-primary">
+        <CardTitle className="text-base md:text-lg font-semibold text-text-primary">
           Ask CERANOS about the markets
         </CardTitle>
         <Button
@@ -67,28 +67,28 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-text-secondary text-sm leading-relaxed">
+        <p className="text-text-secondary text-xs md:text-sm leading-relaxed">
           Get instant insights on crypto markets, sentiment analysis, and on-chain metrics. 
           Try asking about specific coins, market trends, or risk assessments.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
           {examples.map((example, index) => {
             const IconComponent = example.icon;
             return (
               <button
                 key={index}
                 onClick={() => onExampleClick(example.text)}
-                className="flex items-start gap-3 p-3 border border-border-line bg-bg-base hover:bg-bg-panel transition-smooth text-left group"
+                className="flex items-start gap-2 md:gap-3 p-2.5 md:p-3 border border-border-line bg-bg-base hover:bg-bg-panel transition-smooth text-left group"
               >
-                <div className={`p-1.5 bg-${example.color}/10 text-${example.color} group-hover:bg-${example.color}/20 transition-smooth`}>
-                  <IconComponent className="h-4 w-4" />
+                <div className={`p-1 md:p-1.5 bg-${example.color}/10 text-${example.color} group-hover:bg-${example.color}/20 transition-smooth flex-shrink-0`}>
+                  <IconComponent className="h-3 w-3 md:h-4 md:w-4" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-xs font-medium text-accent-blue mb-1">
                     {example.category}
                   </div>
-                  <div className="text-sm text-text-primary group-hover:text-accent-blue transition-smooth line-clamp-2">
+                  <div className="text-xs md:text-sm text-text-primary group-hover:text-accent-blue transition-smooth line-clamp-2">
                     {example.text}
                   </div>
                 </div>
