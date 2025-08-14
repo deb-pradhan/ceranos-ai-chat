@@ -62,7 +62,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
     <div className="w-80 h-full bg-bg-panel border-r border-border-line flex flex-col">
       {/* Header */}
       <div className="h-16 px-6 flex items-center border-b border-border-line">
-        <h1 className="text-2xl font-sans font-semibold text-text-primary">CERANOS</h1>
+        <h1 className="text-2xl font-brand text-text-primary">CERANOS</h1>
       </div>
 
       {/* New Chat Button */}
