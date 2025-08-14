@@ -8,6 +8,8 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   signIn: (email: string) => Promise<{ error: any }>;
+  sendOTP: (email: string) => Promise<{ error: any }>;
+  verifyOTP: (email: string, token: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -82,6 +84,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
+  const sendOTP = async (email: string) => {
+    console.log('Sending OTP to:', email);
+    
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true
+      }
+    });
+
+    if (error) {
+      console.error('Send OTP error:', error);
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } else {
+      console.log('OTP sent successfully');
+    }
+
+    return { error };
+  };
+
+  const verifyOTP = async (email: string, token: string) => {
+    console.log('Verifying OTP for:', email);
+    
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'email'
+    });
+
+    if (error) {
+      console.error('Verify OTP error:', error);
+      toast({
+        title: "Invalid Code",
+        description: "The verification code is incorrect or has expired. Please try again.",
+        variant: "destructive"
+      });
+    } else {
+      console.log('OTP verified successfully');
+    }
+
+    return { error };
+  };
+
   const signOut = async () => {
     console.log('Signing out user');
     const { error } = await supabase.auth.signOut();
@@ -102,6 +151,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     session,
     loading,
     signIn,
+    sendOTP,
+    verifyOTP,
     signOut,
   };
 

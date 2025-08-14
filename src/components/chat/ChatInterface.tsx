@@ -4,6 +4,7 @@ import { InstructionCard } from './InstructionCard';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { TopBar } from './TopBar';
+import { LoginPopup } from '@/components/auth/LoginPopup';
 import { useChatHistory } from '@/hooks/useChatHistory';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -30,6 +31,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [showInstructions, setShowInstructions] = useState(true);
   const [streamingContent, setStreamingContent] = useState('');
   const [loadingPhase, setLoadingPhase] = useState<'thinking' | 'searching' | 'analyzing' | 'typing' | null>(null);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { createChat, addMessage, loadChatMessages } = useChatHistory();
 
@@ -88,9 +91,20 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   const handleSendMessage = async (content: string) => {
-    if (!user || !content.trim()) return;
+    if (!content.trim()) return;
 
-    console.log('Sending message:', content);
+    // Check if user is authenticated
+    if (!user) {
+      setPendingMessage(content);
+      setShowLoginPopup(true);
+      return;
+    }
+
+    await processSendMessage(content);
+  };
+
+  const processSendMessage = async (content: string) => {
+    console.log('Processing message:', content);
     setIsLoading(true);
     setShowInstructions(false);
 
@@ -152,6 +166,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   };
 
+  const handleLoginSuccess = () => {
+    if (pendingMessage) {
+      processSendMessage(pendingMessage);
+      setPendingMessage(null);
+    }
+  };
+
   const handleRegenerateResponse = async () => {
     if (messages.length < 2) return;
     
@@ -193,6 +214,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       <ChatInput 
         onSendMessage={handleSendMessage}
         disabled={isLoading}
+      />
+
+      <LoginPopup 
+        open={showLoginPopup}
+        onOpenChange={setShowLoginPopup}
+        onSuccess={handleLoginSuccess}
       />
     </div>
   );
