@@ -29,6 +29,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
   const [streamingContent, setStreamingContent] = useState('');
+  const [loadingPhase, setLoadingPhase] = useState<'thinking' | 'searching' | 'analyzing' | 'typing' | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { createChat, addMessage, loadChatMessages } = useChatHistory();
 
@@ -112,8 +113,21 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       const userMessage = await addMessage(currentChatId, 'user', content);
       setMessages(prev => [...prev, userMessage]);
 
+      // Start loading phases
+      setLoadingPhase('thinking');
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setLoadingPhase('searching');
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setLoadingPhase('analyzing');
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setLoadingPhase('typing');
+
       // Get real AI response from webhook
       const assistantResponse = await getAssistantResponse(content);
+      setLoadingPhase(null);
       setStreamingContent('');
       
       // Simulate typing effect for better UX
@@ -136,6 +150,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       });
     } finally {
       setIsLoading(false);
+      setLoadingPhase(null);
     }
   };
 
@@ -171,6 +186,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           streamingContent={streamingContent}
           onRegenerateResponse={handleRegenerateResponse}
           isLoading={isLoading}
+          loadingPhase={loadingPhase}
         />
         
         <div ref={messagesEndRef} />

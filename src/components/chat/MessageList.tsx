@@ -2,6 +2,7 @@ import React from 'react';
 import { Copy, RotateCcw, User, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import { LoadingIndicator } from './LoadingIndicators';
 
 interface Message {
   id: number;
@@ -15,13 +16,15 @@ interface MessageListProps {
   streamingContent: string;
   onRegenerateResponse: () => void;
   isLoading: boolean;
+  loadingPhase: 'thinking' | 'searching' | 'analyzing' | 'typing' | null;
 }
 
 export const MessageList: React.FC<MessageListProps> = ({
   messages,
   streamingContent,
   onRegenerateResponse,
-  isLoading
+  isLoading,
+  loadingPhase
 }) => {
   const copyToClipboard = async (content: string) => {
     try {
@@ -109,7 +112,7 @@ export const MessageList: React.FC<MessageListProps> = ({
     );
   };
 
-  if (messages.length === 0 && !streamingContent) {
+  if (messages.length === 0 && !streamingContent && !loadingPhase) {
     return (
       <div className="flex-1 flex items-center justify-center text-text-secondary">
         <div className="text-center">
@@ -125,6 +128,26 @@ export const MessageList: React.FC<MessageListProps> = ({
     <div className="flex-1 overflow-y-auto scrollbar-thin">
       <div className="min-h-full">
         {messages.map((message, index) => renderMessage(message, index))}
+        
+        {/* Loading phase indicator */}
+        {loadingPhase && (
+          <div className="px-6 py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20 animate-fade-in-up">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
+                <Bot className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-medium text-text-primary">CERANOS</span>
+                  <span className="text-xs text-text-secondary">now</span>
+                </div>
+                <div className="py-2">
+                  <LoadingIndicator phase={loadingPhase} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* Streaming message */}
         {streamingContent && (
