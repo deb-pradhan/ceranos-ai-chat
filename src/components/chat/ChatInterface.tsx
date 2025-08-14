@@ -113,28 +113,26 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       const userMessage = await addMessage(currentChatId, 'user', content);
       setMessages(prev => [...prev, userMessage]);
 
-      // Start loading phases
+      // Start loading phases while waiting for webhook
       setLoadingPhase('thinking');
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      setLoadingPhase('searching');
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
       setLoadingPhase('analyzing');
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setLoadingPhase('typing');
 
       // Get real AI response from webhook
       const assistantResponse = await getAssistantResponse(content);
-      setLoadingPhase(null);
+      
+      // Switch to typing phase when we have the response
+      setLoadingPhase('typing');
       setStreamingContent('');
       
-      // Simulate typing effect for better UX
+      // Simulate typing effect with faster animation
       for (let i = 0; i <= assistantResponse.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 20));
+        await new Promise(resolve => setTimeout(resolve, 8)); // Faster typing (was 20ms)
         setStreamingContent(assistantResponse.substring(0, i));
       }
+
+      setLoadingPhase(null);
 
       // Add complete assistant message
       const assistantMessage = await addMessage(currentChatId, 'assistant', assistantResponse);
