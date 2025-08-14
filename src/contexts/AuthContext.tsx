@@ -90,7 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        shouldCreateUser: true
+        shouldCreateUser: true,
+        data: {}
       }
     });
 
@@ -103,6 +104,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
     } else {
       console.log('OTP sent successfully');
+      toast({
+        title: "Check your email",
+        description: "We've sent you a 6-digit verification code."
+      });
     }
 
     return { error };
