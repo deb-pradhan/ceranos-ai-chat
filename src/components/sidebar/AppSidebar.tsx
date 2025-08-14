@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useChatHistory } from '@/hooks/useChatHistory';
-import { FileText, LogOut, MessageSquare, Plus, MoreHorizontal, Trash2, Edit3 } from 'lucide-react';
+import { FileText, LogOut, MessageSquare, Plus, MoreHorizontal, Trash2, Edit3, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { LoginPopup } from '@/components/auth/LoginPopup';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +22,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
   const { chats, loading, deleteChat, updateChatTitle } = useChatHistory();
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleNewChat = () => {
     onSelectChat(null);
@@ -168,22 +170,50 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
         </ScrollArea>
       </div>
 
-      {/* User Info & Logout */}
+      {/* Authentication Section */}
       <div className="p-4 border-t border-border-line mt-auto">
-        <div className="mb-3">
-          <p className="text-xs text-text-secondary truncate">
-            {user?.email}
-          </p>
-        </div>
-        <Button
-          variant="outline"
-          onClick={handleLogout}
-          className="w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base"
-        >
-          <LogOut className="w-4 h-4 mr-2" />
-          Sign Out
-        </Button>
+        {user ? (
+          // Authenticated user
+          <>
+            <div className="mb-3">
+              <p className="text-xs text-text-secondary truncate">
+                {user.email}
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </>
+        ) : (
+          // Not authenticated
+          <>
+            <div className="mb-3">
+              <p className="text-xs text-text-secondary">
+                Sign in to save your conversations
+              </p>
+            </div>
+            <Button
+              onClick={() => setShowLoginPopup(true)}
+              className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
+            >
+              <LogIn className="w-4 h-4 mr-2" />
+              Sign In
+            </Button>
+          </>
+        )}
       </div>
+
+      {/* Login Popup */}
+      <LoginPopup 
+        open={showLoginPopup} 
+        onOpenChange={setShowLoginPopup}
+        onSuccess={() => setShowLoginPopup(false)}
+      />
     </div>
   );
 };
