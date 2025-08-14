@@ -57,40 +57,40 @@ export const MessageList: React.FC<MessageListProps> = ({
     return (
       <div
         key={message.id}
-        className={`px-4 md:px-6 py-4 md:py-6 ${isUser ? 'message-user' : 'message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20'}`}
+        className={`px-4 md:px-6 py-5 md:py-6 ${isUser ? 'message-user' : 'message-assistant bg-bg-panel/50 border-l-4 border-l-accent-blue/30'}`}
       >
         <div className="flex items-start gap-3 md:gap-4">
           {/* Avatar */}
-          <div className={`flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center ${isUser ? 'bg-accent-blue/10 text-accent-blue' : 'bg-bg-base text-text-secondary'} border border-border-line`}>
-            {isUser ? <User className="w-3 h-3 md:w-4 md:h-4" /> : <Bot className="w-3 h-3 md:w-4 md:h-4" />}
+          <div className={`flex-shrink-0 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-lg ${isUser ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/20' : 'bg-bg-elevated text-text-secondary border border-border-subtle'} shadow-sm`}>
+            {isUser ? <User className="w-4 h-4 md:w-4 md:h-4" /> : <Bot className="w-4 h-4 md:w-4 md:h-4" />}
           </div>
 
           {/* Message content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-sm font-medium text-text-primary">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-sm font-semibold text-text-primary">
                 {isUser ? 'You' : 'CERANOS'}
               </span>
-              <span className="text-xs text-text-secondary">
+              <span className="text-xs text-text-tertiary font-medium">
                 {formatTimestamp(message.created_at)}
               </span>
             </div>
 
             <div className="prose prose-sm max-w-none text-text-primary">
-              <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
+              <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed tracking-tight">
                 {message.content}
               </pre>
             </div>
 
             {/* Message actions */}
-            <div className="flex items-center gap-2 mt-3">
+            <div className="flex items-center gap-2 mt-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(message.content)}
-                className="h-8 px-2 text-text-secondary hover:text-text-primary hover:bg-bg-base"
+                className="h-8 px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
               >
-                <Copy className="w-3 h-3 mr-1" />
+                <Copy className="w-3 h-3 mr-1.5" />
                 Copy
               </Button>
 
@@ -99,9 +99,9 @@ export const MessageList: React.FC<MessageListProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={onRegenerateResponse}
-                  className="h-8 px-2 text-text-secondary hover:text-text-primary hover:bg-bg-base"
+                  className="h-8 px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
                 >
-                  <RotateCcw className="w-3 h-3 mr-1" />
+                  <RotateCcw className="w-3 h-3 mr-1.5" />
                   Regenerate
                 </Button>
               )}

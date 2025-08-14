@@ -20,19 +20,31 @@ export default {
 		extend: {
 			fontFamily: {
 				'brand': ['DM Serif Display', 'serif'],
-				'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+				'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+			},
+			fontSize: {
+				'xs': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.01em' }],
+				'sm': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em' }],
+				'base': ['1rem', { lineHeight: '1.5rem', letterSpacing: '0.01em' }],
+				'lg': ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '0.01em' }],
+				'xl': ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '0.01em' }],
 			},
 			colors: {
-				// CERANOS Design System Colors
+				// CERANOS Design System Colors - Apple-refined
 				'bg-base': 'hsl(var(--bg-base))',
 				'bg-panel': 'hsl(var(--bg-panel))',
+				'bg-elevated': 'hsl(var(--bg-elevated))',
 				'text-primary': 'hsl(var(--text-primary))',
 				'text-secondary': 'hsl(var(--text-secondary))',
+				'text-tertiary': 'hsl(var(--text-tertiary))',
 				'border-line': 'hsl(var(--border-line))',
+				'border-subtle': 'hsl(var(--border-subtle))',
 				'accent-blue': 'hsl(var(--accent-blue))',
+				'accent-blue-subtle': 'hsl(var(--accent-blue-subtle))',
 				'focus-ring': 'hsl(var(--focus-ring))',
 				'state-positive': 'hsl(var(--state-positive))',
 				'state-negative': 'hsl(var(--state-negative))',
+				'state-warning': 'hsl(var(--state-warning))',
 
 				// Legacy shadcn compatibility
 				border: 'hsl(var(--border))',
@@ -81,11 +93,24 @@ export default {
 			},
 			borderRadius: {
 				'none': '0px',
-				DEFAULT: '0px',
-				lg: '0px',
-				md: '0px',
-				sm: '0px',
-				full: '0px'
+				'xs': '4px',
+				'sm': '6px',
+				DEFAULT: '8px',
+				'md': '10px',
+				'lg': '12px',
+				'xl': '16px',
+				'2xl': '20px',
+				'full': '9999px'
+			},
+			boxShadow: {
+				'sm': 'var(--shadow-sm)',
+				'md': 'var(--shadow-md)',
+				'lg': 'var(--shadow-lg)',
+				'xl': 'var(--shadow-xl)',
+			},
+			spacing: {
+				'18': '4.5rem',
+				'88': '22rem',
 			},
 			transitionDuration: {
 				'120': '120ms',

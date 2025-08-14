@@ -38,26 +38,26 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarOpen }
   };
 
   return (
-    <div className={`flex items-center justify-between h-12 ${isMobile ? 'px-4' : 'px-6'} border-b border-border-line bg-bg-base`}>
+    <div className={`flex items-center justify-between h-14 ${isMobile ? 'px-4' : 'px-6'} border-b border-border-subtle bg-bg-base/95 backdrop-blur-xl shadow-sm`}>
       {/* Left Section */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         {/* Mobile hamburger menu */}
         {isMobile && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onToggleSidebar}
-            className="h-8 w-8 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
+            className="h-9 w-9 text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
           >
             <Menu className="w-4 h-4" />
           </Button>
         )}
         
         {/* Connection status */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {getConnectionIcon()}
           {!isMobile && (
-            <span className="text-xs text-text-secondary">{getConnectionText()}</span>
+            <span className="text-sm text-text-secondary font-medium">{getConnectionText()}</span>
           )}
         </div>
       </div>
@@ -67,7 +67,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarOpen }
         variant="ghost"
         size="icon"
         onClick={toggleTheme}
-        className="h-8 w-8 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
+        className="h-9 w-9 text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
       >
         {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
       </Button>

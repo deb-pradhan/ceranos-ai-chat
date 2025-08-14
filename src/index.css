@@ -7,103 +7,142 @@
 
 @layer base {
   :root {
-    /* CERANOS Color System - Light Theme */
-    --bg-base: 0 0% 100%;
-    --bg-panel: 220 14% 96%;
-    --text-primary: 218 11% 6%;
-    --text-secondary: 215 14% 42%;
-    --border-line: 214 32% 92%;
-    --accent-blue: 217 91% 60%;
-    --focus-ring: 217 91% 60%;
-    --state-positive: 173 80% 40%;
+    /* Background Colors - Apple-inspired light mode depth */
+    --bg-base: 0 0% 99%;
+    --bg-panel: 0 0% 96%;
+    --bg-elevated: 0 0% 100%;
+
+    /* Text Colors - Apple-style hierarchy */
+    --text-primary: 240 10% 4%;
+    --text-secondary: 240 4% 35%;
+    --text-tertiary: 240 4% 55%;
+
+    /* UI Colors - Refined for clarity */
+    --border-line: 240 6% 88%;
+    --border-subtle: 240 6% 94%;
+    --accent-blue: 213 94% 50%;
+    --accent-blue-subtle: 213 80% 40%;
+    --focus-ring: 213 94% 50%;
+
+    /* State Colors */
+    --state-positive: 142 76% 36%;
     --state-negative: 0 84% 60%;
+    --state-warning: 43 96% 56%;
+
+    /* Apple-style shadows for depth */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.02);
 
     /* Legacy mapping for shadcn compatibility */
-    --background: var(--bg-base);
-    --foreground: var(--text-primary);
-    --card: var(--bg-panel);
-    --card-foreground: var(--text-primary);
-    --popover: var(--bg-base);
-    --popover-foreground: var(--text-primary);
-    --primary: var(--accent-blue);
-    --primary-foreground: 0 0% 100%;
-    --secondary: var(--bg-panel);
-    --secondary-foreground: var(--text-primary);
-    --muted: var(--bg-panel);
-    --muted-foreground: var(--text-secondary);
-    --accent: var(--bg-panel);
-    --accent-foreground: var(--text-primary);
-    --destructive: var(--state-negative);
-    --destructive-foreground: 0 0% 100%;
-    --border: var(--border-line);
-    --input: var(--border-line);
-    --ring: var(--focus-ring);
-    --radius: 0px;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    --primary: 213 94% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 240 6% 94%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 240 6% 94%;
+    --muted-foreground: 240 4% 35%;
+    --accent: 240 6% 94%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 240 6% 88%;
+    --input: 240 6% 88%;
+    --ring: 213 94% 50%;
+    --radius: 0.75rem;
 
     /* Sidebar system */
-    --sidebar-background: var(--bg-panel);
-    --sidebar-foreground: var(--text-primary);
-    --sidebar-primary: var(--accent-blue);
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: var(--bg-base);
-    --sidebar-accent-foreground: var(--text-primary);
-    --sidebar-border: var(--border-line);
-    --sidebar-ring: var(--focus-ring);
+    --sidebar-background: 0 0% 99%;
+    --sidebar-foreground: 240 10% 4%;
+    --sidebar-primary: 213 94% 50%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 6% 94%;
+    --sidebar-accent-foreground: 240 10% 4%;
+    --sidebar-border: 240 6% 88%;
+    --sidebar-ring: 213 94% 50%;
 
-    /* Animation tokens */
-    --transition-smooth: all 140ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* Apple-style smooth transitions */
+    --transition-smooth: all 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-fast: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-spring: all 280ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .dark {
-    /* CERANOS Color System - Dark Theme */
-    --bg-base: 220 39% 6%;
-    --bg-panel: 218 27% 8%;
-    --text-primary: 213 31% 91%;
-    --text-secondary: 215 20% 65%;
-    --border-line: 215 28% 17%;
+    /* Background Colors - Apple-inspired dark mode depth */
+    --bg-base: 240 8% 4%;
+    --bg-panel: 240 8% 7%;
+    --bg-elevated: 240 8% 10%;
+
+    /* Text Colors - Apple-style hierarchy */
+    --text-primary: 0 0% 98%;
+    --text-secondary: 240 4% 65%;
+    --text-tertiary: 240 4% 45%;
+
+    /* UI Colors - Refined for clarity */
+    --border-line: 240 6% 18%;
+    --border-subtle: 240 6% 12%;
     --accent-blue: 213 94% 68%;
+    --accent-blue-subtle: 213 80% 60%;
     --focus-ring: 213 94% 68%;
-    --state-positive: 172 76% 65%;
-    --state-negative: 0 91% 71%;
+
+    /* State Colors */
+    --state-positive: 142 76% 36%;
+    --state-negative: 0 84% 60%;
+    --state-warning: 43 96% 56%;
+
+    /* Apple-style shadows for depth */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.04);
 
     /* Legacy mapping for shadcn compatibility */
-    --background: var(--bg-base);
-    --foreground: var(--text-primary);
-    --card: var(--bg-panel);
-    --card-foreground: var(--text-primary);
-    --popover: var(--bg-base);
-    --popover-foreground: var(--text-primary);
-    --primary: var(--accent-blue);
-    --primary-foreground: var(--bg-base);
-    --secondary: var(--bg-panel);
-    --secondary-foreground: var(--text-primary);
-    --muted: var(--bg-panel);
-    --muted-foreground: var(--text-secondary);
-    --accent: var(--bg-panel);
-    --accent-foreground: var(--text-primary);
-    --destructive: var(--state-negative);
-    --destructive-foreground: var(--bg-base);
-    --border: var(--border-line);
-    --input: var(--border-line);
-    --ring: var(--focus-ring);
+    --background: 240 8% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 8% 7%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 8% 7%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 213 94% 68%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 6% 18%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 6% 18%;
+    --muted-foreground: 240 4% 65%;
+    --accent: 240 6% 18%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 18%;
+    --input: 240 6% 18%;
+    --ring: 213 94% 68%;
 
     /* Sidebar system */
-    --sidebar-background: var(--bg-panel);
-    --sidebar-foreground: var(--text-primary);
-    --sidebar-primary: var(--accent-blue);
-    --sidebar-primary-foreground: var(--bg-base);
-    --sidebar-accent: var(--bg-base);
-    --sidebar-accent-foreground: var(--text-primary);
-    --sidebar-border: var(--border-line);
-    --sidebar-ring: var(--focus-ring);
+    --sidebar-background: 240 8% 4%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 213 94% 68%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 6% 18%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 6% 18%;
+    --sidebar-ring: 213 94% 68%;
+
+    /* Apple-style smooth transitions */
+    --transition-smooth: all 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-fast: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-spring: all 280ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    border-radius: 0px !important; /* Zero radius globally */
   }
 
   body {
@@ -133,13 +172,11 @@
 
   /* Code block styling */
   pre {
-    @apply bg-slate-900 text-slate-100 p-4 overflow-x-auto text-sm;
-    border-radius: 0px !important;
+    @apply bg-slate-900 text-slate-100 p-4 overflow-x-auto text-sm rounded-lg;
   }
 
   code {
-    @apply bg-slate-100 dark:bg-slate-800 px-1 py-0.5 text-sm font-mono;
-    border-radius: 0px !important;
+    @apply bg-slate-100 dark:bg-slate-800 px-1 py-0.5 text-sm font-mono rounded;
   }
 
   pre code {
@@ -171,7 +208,7 @@
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
     background-color: hsl(var(--border-line));
-    border-radius: 0px;
+    border-radius: 4px;
   }
 
   /* Animation delay utilities */
