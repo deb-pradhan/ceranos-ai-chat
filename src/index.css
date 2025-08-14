@@ -2,104 +2,175 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* CERANOS Design System - Ultra-modern, premium, zero-radius */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* CERANOS Color System - Light Theme */
+    --bg-base: 0 0% 100%;
+    --bg-panel: 220 14% 96%;
+    --text-primary: 218 11% 6%;
+    --text-secondary: 215 14% 42%;
+    --border-line: 214 32% 92%;
+    --accent-blue: 217 91% 60%;
+    --focus-ring: 217 91% 60%;
+    --state-positive: 173 80% 40%;
+    --state-negative: 0 84% 60%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Legacy mapping for shadcn compatibility */
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+    --card: var(--bg-panel);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-base);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--accent-blue);
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--bg-panel);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--bg-panel);
+    --muted-foreground: var(--text-secondary);
+    --accent: var(--bg-panel);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--state-negative);
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--border-line);
+    --input: var(--border-line);
+    --ring: var(--focus-ring);
+    --radius: 0px;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Sidebar system */
+    --sidebar-background: var(--bg-panel);
+    --sidebar-foreground: var(--text-primary);
+    --sidebar-primary: var(--accent-blue);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--bg-base);
+    --sidebar-accent-foreground: var(--text-primary);
+    --sidebar-border: var(--border-line);
+    --sidebar-ring: var(--focus-ring);
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Animation tokens */
+    --transition-smooth: all 140ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* CERANOS Color System - Dark Theme */
+    --bg-base: 220 39% 6%;
+    --bg-panel: 218 27% 8%;
+    --text-primary: 213 31% 91%;
+    --text-secondary: 215 20% 65%;
+    --border-line: 215 28% 17%;
+    --accent-blue: 213 94% 68%;
+    --focus-ring: 213 94% 68%;
+    --state-positive: 172 76% 65%;
+    --state-negative: 0 91% 71%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* Legacy mapping for shadcn compatibility */
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+    --card: var(--bg-panel);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-base);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--accent-blue);
+    --primary-foreground: var(--bg-base);
+    --secondary: var(--bg-panel);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--bg-panel);
+    --muted-foreground: var(--text-secondary);
+    --accent: var(--bg-panel);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--state-negative);
+    --destructive-foreground: var(--bg-base);
+    --border: var(--border-line);
+    --input: var(--border-line);
+    --ring: var(--focus-ring);
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar system */
+    --sidebar-background: var(--bg-panel);
+    --sidebar-foreground: var(--text-primary);
+    --sidebar-primary: var(--accent-blue);
+    --sidebar-primary-foreground: var(--bg-base);
+    --sidebar-accent: var(--bg-base);
+    --sidebar-accent-foreground: var(--text-primary);
+    --sidebar-border: var(--border-line);
+    --sidebar-ring: var(--focus-ring);
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    border-radius: 0px !important; /* Zero radius globally */
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* CERANOS brand typography */
+  .font-brand {
+    font-family: 'DM Serif Display', serif;
+  }
+
+  /* Custom focus styles */
+  .focus-ring {
+    @apply outline-none;
+    box-shadow: 0 0 0 2px hsl(var(--focus-ring));
+  }
+
+  /* Transition utilities */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
+
+  /* Code block styling */
+  pre {
+    @apply bg-slate-900 text-slate-100 p-4 overflow-x-auto text-sm;
+    border-radius: 0px !important;
+  }
+
+  code {
+    @apply bg-slate-100 dark:bg-slate-800 px-1 py-0.5 text-sm font-mono;
+    border-radius: 0px !important;
+  }
+
+  pre code {
+    @apply bg-transparent p-0;
+  }
+
+  /* Message styling */
+  .message-user {
+    @apply bg-transparent;
+  }
+
+  .message-assistant {
+    @apply bg-card;
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border-line)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border-line));
+    border-radius: 0px;
   }
 }

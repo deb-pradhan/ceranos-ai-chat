@@ -18,7 +18,23 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'brand': ['DM Serif Display', 'serif'],
+				'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+			},
 			colors: {
+				// CERANOS Design System Colors
+				'bg-base': 'hsl(var(--bg-base))',
+				'bg-panel': 'hsl(var(--bg-panel))',
+				'text-primary': 'hsl(var(--text-primary))',
+				'text-secondary': 'hsl(var(--text-secondary))',
+				'border-line': 'hsl(var(--border-line))',
+				'accent-blue': 'hsl(var(--accent-blue))',
+				'focus-ring': 'hsl(var(--focus-ring))',
+				'state-positive': 'hsl(var(--state-positive))',
+				'state-negative': 'hsl(var(--state-negative))',
+
+				// Legacy shadcn compatibility
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -64,9 +80,17 @@ export default {
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				'none': '0px',
+				DEFAULT: '0px',
+				lg: '0px',
+				md: '0px',
+				sm: '0px',
+				full: '0px'
+			},
+			transitionDuration: {
+				'120': '120ms',
+				'140': '140ms',
+				'160': '160ms'
 			},
 			keyframes: {
 				'accordion-down': {

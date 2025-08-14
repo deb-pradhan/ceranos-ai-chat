@@ -1,13 +1,38 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React, { useState } from 'react';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthGuard } from '@/components/auth/AuthGuard';
+import { AppSidebar } from '@/components/sidebar/AppSidebar';
+import { ChatInterface } from '@/components/chat/ChatInterface';
 
 const Index = () => {
+  const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
+
+  const handleSelectChat = (chatId: string | null) => {
+    console.log('Selecting chat:', chatId);
+    setSelectedChatId(chatId);
+  };
+
+  const handleNewChat = () => {
+    setSelectedChatId(null);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <AuthProvider>
+      <AuthGuard>
+        <div className="h-screen flex bg-bg-base">
+          <AppSidebar 
+            selectedChatId={selectedChatId}
+            onSelectChat={handleSelectChat}
+          />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <ChatInterface 
+              selectedChatId={selectedChatId}
+              onNewChat={handleNewChat}
+            />
+          </div>
+        </div>
+      </AuthGuard>
+    </AuthProvider>
   );
 };
 
