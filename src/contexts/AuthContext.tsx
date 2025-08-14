@@ -90,22 +90,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        shouldCreateUser: true
+        shouldCreateUser: true,
+        // Explicitly disable email redirect to force OTP behavior
+        emailRedirectTo: undefined,
+        // Force OTP type to email
+        data: {
+          type: 'signup'
+        }
       }
     });
 
     if (error) {
       console.error('Send OTP error:', error);
       toast({
-        title: "Error",
+        title: "Error sending code",
         description: error.message,
         variant: "destructive"
       });
     } else {
       console.log('OTP sent successfully');
       toast({
-        title: "Check your email",
-        description: "We've sent you a 6-digit verification code."
+        title: "Verification code sent",
+        description: "Check your email for a 6-digit verification code. It expires in 10 minutes."
       });
     }
 
