@@ -6,6 +6,7 @@ import { ChatInput } from './ChatInput';
 import { TopBar } from './TopBar';
 import { useChatHistory } from '@/hooks/useChatHistory';
 import { toast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   id: number;
@@ -63,19 +64,26 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   };
 
-  const simulateAssistantResponse = (userMessage: string): string => {
-    const responses = {
-      'btc': 'Bitcoin is currently showing strong momentum with institutional support continuing to grow. Current price action suggests consolidation above key support levels.',
-      'eth': 'Ethereum is benefiting from increased DeFi activity and upcoming network upgrades. Layer 2 adoption continues to accelerate.',
-      'market': 'The crypto market is experiencing mixed sentiment. Bitcoin dominance is holding steady while altcoins show selective strength.',
-      'default': `I understand you're asking about "${userMessage}". As an AI focused on crypto markets, I can help analyze trends, sentiment, and key metrics. However, please note this is a demo response. In a production environment, I would provide real-time market analysis based on current data.`
-    };
+  const getAssistantResponse = async (userMessage: string): Promise<string> => {
+    try {
+      const { data, error } = await supabase.functions.invoke('chat-webhook', {
+        body: { message: userMessage }
+      });
 
-    const message = userMessage.toLowerCase();
-    if (message.includes('btc') || message.includes('bitcoin')) return responses.btc;
-    if (message.includes('eth') || message.includes('ethereum')) return responses.eth;
-    if (message.includes('market') || message.includes('trend')) return responses.market;
-    return responses.default;
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error('Failed to get AI response');
+      }
+
+      if (!data.success) {
+        throw new Error(data.error || 'Webhook request failed');
+      }
+
+      return data.response;
+    } catch (error) {
+      console.error('Error calling webhook:', error);
+      throw error;
+    }
   };
 
   const handleSendMessage = async (content: string) => {
@@ -104,11 +112,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       const userMessage = await addMessage(currentChatId, 'user', content);
       setMessages(prev => [...prev, userMessage]);
 
-      // Simulate streaming response
-      const assistantResponse = simulateAssistantResponse(content);
+      // Get real AI response from webhook
+      const assistantResponse = await getAssistantResponse(content);
       setStreamingContent('');
       
-      // Simulate typing effect
+      // Simulate typing effect for better UX
       for (let i = 0; i <= assistantResponse.length; i++) {
         await new Promise(resolve => setTimeout(resolve, 20));
         setStreamingContent(assistantResponse.substring(0, i));
