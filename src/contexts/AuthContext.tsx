@@ -85,57 +85,130 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const sendOTP = async (email: string) => {
-    console.log('Sending OTP to:', email);
+    console.log('=== STARTING OTP SEND PROCESS ===');
+    console.log('Email:', email);
+    console.log('Timestamp:', new Date().toISOString());
     
-    const { error } = await supabase.auth.signInWithOtp({
+    // Method 1: Try signInWithOtp (current method)
+    console.log('--- Attempting Method 1: signInWithOtp ---');
+    const otpParams = {
       email,
       options: {
         shouldCreateUser: true,
-        // Explicitly disable email redirect to force OTP behavior
         emailRedirectTo: undefined,
-        // Force OTP type to email
         data: {
           type: 'signup'
         }
       }
-    });
-
-    if (error) {
-      console.error('Send OTP error:', error);
-      toast({
-        title: "Error sending code",
-        description: error.message,
-        variant: "destructive"
-      });
+    };
+    console.log('OTP Parameters:', JSON.stringify(otpParams, null, 2));
+    
+    const { error: otpError } = await supabase.auth.signInWithOtp(otpParams);
+    
+    if (otpError) {
+      console.error('Method 1 (signInWithOtp) failed:', otpError);
+      console.log('--- Attempting Method 2: signUp (fallback) ---');
+      
+      // Method 2: Fallback to signUp method
+      const signUpParams = {
+        email,
+        password: 'temporary-password-' + Math.random().toString(36).substring(7), // Temporary password
+        options: {
+          emailRedirectTo: undefined,
+          data: {
+            verification_type: 'otp'
+          }
+        }
+      };
+      console.log('SignUp Parameters:', JSON.stringify(signUpParams, null, 2));
+      
+      const { error: signUpError } = await supabase.auth.signUp(signUpParams);
+      
+      if (signUpError) {
+        console.error('Method 2 (signUp) also failed:', signUpError);
+        console.log('=== BOTH METHODS FAILED ===');
+        toast({
+          title: "Error sending code",
+          description: `Failed to send verification code: ${signUpError.message}`,
+          variant: "destructive"
+        });
+        return { error: signUpError };
+      } else {
+        console.log('Method 2 (signUp) succeeded - OTP should be sent');
+        console.log('=== FALLBACK METHOD SUCCESS ===');
+        toast({
+          title: "Verification code sent (via signup)",
+          description: "Check your email for a 6-digit verification code. Note: This used an alternative method."
+        });
+        return { error: null };
+      }
     } else {
-      console.log('OTP sent successfully');
+      console.log('Method 1 (signInWithOtp) succeeded');
+      console.log('=== PRIMARY METHOD SUCCESS ===');
+      
+      // Check what type of verification was actually sent
+      console.log('--- Checking verification method type ---');
+      try {
+        // Try to get session to see if magic link was used instead
+        const { data: sessionData } = await supabase.auth.getSession();
+        console.log('Current session after OTP send:', sessionData);
+        
+        if (sessionData.session) {
+          console.warn('WARNING: Session exists immediately after OTP send - this suggests magic link was used!');
+        } else {
+          console.log('No immediate session - this suggests OTP was properly sent');
+        }
+      } catch (sessionError) {
+        console.error('Error checking session:', sessionError);
+      }
+      
       toast({
         title: "Verification code sent",
         description: "Check your email for a 6-digit verification code. It expires in 10 minutes."
       });
+      return { error: null };
     }
-
-    return { error };
   };
 
   const verifyOTP = async (email: string, token: string) => {
-    console.log('Verifying OTP for:', email);
+    console.log('=== STARTING OTP VERIFICATION PROCESS ===');
+    console.log('Email:', email);
+    console.log('Token:', token);
+    console.log('Token length:', token.length);
+    console.log('Token type:', typeof token);
+    console.log('Timestamp:', new Date().toISOString());
     
-    const { error } = await supabase.auth.verifyOtp({
+    const verifyParams = {
       email,
       token,
-      type: 'email'
-    });
-
+      type: 'email' as const
+    };
+    console.log('Verify Parameters:', JSON.stringify(verifyParams, null, 2));
+    
+    const { error, data } = await supabase.auth.verifyOtp(verifyParams);
+    
     if (error) {
-      console.error('Verify OTP error:', error);
+      console.error('=== OTP VERIFICATION FAILED ===');
+      console.error('Error details:', error);
+      console.error('Error code:', error.status);
+      console.error('Error message:', error.message);
+      
       toast({
         title: "Invalid Code",
         description: "The verification code is incorrect or has expired. Please try again.",
         variant: "destructive"
       });
     } else {
-      console.log('OTP verified successfully');
+      console.log('=== OTP VERIFICATION SUCCESS ===');
+      console.log('Verification response data:', data);
+      console.log('User data:', data?.user);
+      console.log('Session data:', data?.session);
+      
+      if (data?.session) {
+        console.log('Session created successfully');
+        console.log('Access token received:', !!data.session.access_token);
+        console.log('Refresh token received:', !!data.session.refresh_token);
+      }
     }
 
     return { error };
