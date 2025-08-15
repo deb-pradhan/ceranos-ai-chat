@@ -133,12 +133,12 @@
 
   /* Code block styling */
   pre {
-    @apply bg-slate-900 text-slate-100 p-4 overflow-x-auto text-sm;
+    @apply bg-muted text-foreground p-4 overflow-x-auto text-sm;
     border-radius: 0px !important;
   }
 
   code {
-    @apply bg-slate-100 dark:bg-slate-800 px-1 py-0.5 text-sm font-mono;
+    @apply bg-muted text-foreground px-1 py-0.5 text-sm font-mono;
     border-radius: 0px !important;
   }
 
