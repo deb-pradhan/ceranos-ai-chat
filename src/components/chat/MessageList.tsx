@@ -61,8 +61,8 @@ export const MessageList: React.FC<MessageListProps> = ({
       >
         <div className="flex items-start gap-3 md:gap-4">
           {/* Avatar */}
-          <div className={`flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center ${isUser ? 'bg-accent-blue/10 text-accent-blue' : 'bg-bg-base text-text-secondary'} border border-border-line`}>
-            {isUser ? <User className="w-3 h-3 md:w-4 md:h-4" /> : <img src="/lovable-uploads/938a410a-22f0-4046-91b8-c1136053ba95.png" alt="Ceranos Bot" className="w-3 h-3 md:w-4 md:h-4" />}
+          <div className={`flex-shrink-0 w-7 h-7 md:w-8 md:h-8 ${isUser ? 'bg-accent-blue/10 text-accent-blue rounded-full flex items-center justify-center' : ''}`}>
+            {isUser ? <User className="w-3 h-3 md:w-4 md:h-4" /> : <img src="/lovable-uploads/938a410a-22f0-4046-91b8-c1136053ba95.png" alt="Ceranos Bot" className="w-full h-full object-contain" />}
           </div>
 
           {/* Message content */}
@@ -133,8 +133,8 @@ export const MessageList: React.FC<MessageListProps> = ({
         {loadingPhase && (
           <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20 animate-fade-in-up">
             <div className="flex items-start gap-3 md:gap-4">
-              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
-                <img src="/lovable-uploads/938a410a-22f0-4046-91b8-c1136053ba95.png" alt="Ceranos Bot" className="w-3 h-3 md:w-4 md:h-4" />
+              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8">
+                <img src="/lovable-uploads/938a410a-22f0-4046-91b8-c1136053ba95.png" alt="Ceranos Bot" className="w-full h-full object-contain" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
@@ -153,8 +153,8 @@ export const MessageList: React.FC<MessageListProps> = ({
         {streamingContent && (
           <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20">
             <div className="flex items-start gap-3 md:gap-4">
-              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
-                <img src="/lovable-uploads/938a410a-22f0-4046-91b8-c1136053ba95.png" alt="Ceranos Bot" className="w-3 h-3 md:w-4 md:h-4" />
+              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8">
+                <img src="/lovable-uploads/938a410a-22f0-4046-91b8-c1136053ba95.png" alt="Ceranos Bot" className="w-full h-full object-contain" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
