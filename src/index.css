@@ -1,142 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* CERANOS Design System - Ultra-modern, premium, zero-radius */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
-
+/* ===== SKY BLUE DESIGN SYSTEM ===== */
 @layer base {
   :root {
-    /* Background Colors - Apple-inspired light mode depth */
-    --bg-base: 0 0% 99%;
-    --bg-panel: 0 0% 96%;
-    --bg-elevated: 0 0% 100%;
+    /* === Sky Blue Color System === */
+    --bg-base: 248 250 252;            /* Very light slate-50 background */
+    --bg-panel: 255 255 255;           /* Pure white for cards/panels */
+    --bg-elevated: 241 245 249;        /* Elevated slate-100 surfaces */
+    
+    --text-primary: 15 23 42;          /* Deep slate-800 for primary text */
+    --text-secondary: 51 65 85;        /* Slate-600 for secondary text */
+    --text-tertiary: 100 116 139;      /* Slate-500 for tertiary text */
+    
+    --border-line: 226 232 240;        /* Slate-200 for main borders */
+    --border-subtle: 241 245 249;      /* Slate-100 for subtle borders */
+    
+    /* === Sky Blue Accent System === */
+    --accent-primary: 14 165 233;      /* Sky-500 primary accent */
+    --accent-secondary: 56 189 248;    /* Sky-400 secondary accent */
+    --accent-muted: 125 211 252;       /* Sky-300 muted accent */
+    --accent-subtle: 186 230 253;      /* Sky-200 subtle accent */
+    
+    /* === State Colors === */
+    --state-success: 34 197 94;        /* Green-500 for success */
+    --state-error: 239 68 68;          /* Red-500 for errors */
+    --state-warning: 245 158 11;       /* Amber-500 for warnings */
 
-    /* Text Colors - Apple-style hierarchy */
-    --text-primary: 240 10% 4%;
-    --text-secondary: 240 4% 35%;
-    --text-tertiary: 240 4% 55%;
+    /* === Sky Blue Shadows === */
+    --shadow-sm: 0 1px 2px 0 rgba(14, 165, 233, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(14, 165, 233, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(14, 165, 233, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
-    /* UI Colors - Refined for clarity */
-    --border-line: 240 6% 88%;
-    --border-subtle: 240 6% 94%;
-    --accent-blue: 213 94% 50%;
-    --accent-blue-subtle: 213 80% 40%;
-    --focus-ring: 213 94% 50%;
+    /* === Smooth Transitions === */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-    /* State Colors */
-    --state-positive: 142 76% 36%;
-    --state-negative: 0 84% 60%;
-    --state-warning: 43 96% 56%;
+    /* === shadcn + Sky Blue Compatibility === */
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+    --card: var(--bg-panel);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-panel);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--accent-primary);
+    --primary-foreground: 255 255 255;
+    --secondary: var(--accent-subtle);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--bg-elevated);
+    --muted-foreground: var(--text-secondary);
+    --accent: var(--accent-secondary);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--state-error);
+    --destructive-foreground: 255 255 255;
+    --border: var(--border-line);
+    --input: var(--border-line);
+    --ring: var(--accent-primary);
 
-    /* Apple-style shadows for depth */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.03);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
-    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.02);
-
-    /* Legacy mapping for shadcn compatibility */
-    --background: 0 0% 100%;
-    --foreground: 240 10% 4%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 4%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 4%;
-    --primary: 213 94% 50%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 6% 94%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 240 6% 94%;
-    --muted-foreground: 240 4% 35%;
-    --accent: 240 6% 94%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 240 6% 88%;
-    --input: 240 6% 88%;
-    --ring: 213 94% 50%;
-    --radius: 0.75rem;
-
-    /* Sidebar system */
-    --sidebar-background: 0 0% 99%;
-    --sidebar-foreground: 240 10% 4%;
-    --sidebar-primary: 213 94% 50%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 6% 94%;
-    --sidebar-accent-foreground: 240 10% 4%;
-    --sidebar-border: 240 6% 88%;
-    --sidebar-ring: 213 94% 50%;
-
-    /* Apple-style smooth transitions */
-    --transition-smooth: all 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-fast: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-spring: all 280ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* === Sky Blue Sidebar System === */
+    --sidebar-background: var(--bg-panel);
+    --sidebar-foreground: var(--text-primary);
+    --sidebar-primary: var(--accent-primary);
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: var(--accent-subtle);
+    --sidebar-accent-foreground: var(--text-primary);
+    --sidebar-border: var(--border-line);
+    --sidebar-ring: var(--accent-primary);
   }
 
   .dark {
-    /* Background Colors - Apple-inspired dark mode depth */
-    --bg-base: 240 8% 4%;
-    --bg-panel: 240 8% 7%;
-    --bg-elevated: 240 8% 10%;
+    /* === Dark Mode Sky Blue System === */
+    --bg-base: 2 8 23;               /* Very dark slate-900 */
+    --bg-panel: 15 23 42;            /* Dark slate-800 panels */
+    --bg-elevated: 30 41 59;         /* Elevated slate-700 surfaces */
+    
+    --text-primary: 248 250 252;     /* Light slate-50 text */
+    --text-secondary: 203 213 225;   /* Slate-300 secondary */
+    --text-tertiary: 148 163 184;    /* Slate-400 tertiary */
+    
+    --border-line: 51 65 85;         /* Slate-600 borders */
+    --border-subtle: 30 41 59;       /* Slate-700 subtle borders */
+    
+    /* === Dark Sky Blue Accents === */
+    --accent-primary: 56 189 248;    /* Sky-400 for dark mode */
+    --accent-secondary: 125 211 252; /* Sky-300 secondary */
+    --accent-muted: 14 165 233;      /* Sky-500 muted */
+    --accent-subtle: 7 89 133;       /* Sky-700 subtle */
+    
+    /* === Dark State Colors === */
+    --state-success: 74 222 128;     /* Green-400 for dark */
+    --state-error: 248 113 113;      /* Red-400 for dark */
+    --state-warning: 251 191 36;     /* Amber-400 for dark */
 
-    /* Text Colors - Apple-style hierarchy */
-    --text-primary: 0 0% 98%;
-    --text-secondary: 240 4% 65%;
-    --text-tertiary: 240 4% 45%;
+    /* === Dark Sky Blue Shadows === */
+    --shadow-sm: 0 1px 2px 0 rgba(56, 189, 248, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(56, 189, 248, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 10px 15px -3px rgba(56, 189, 248, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 25px -5px rgba(56, 189, 248, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
 
-    /* UI Colors - Refined for clarity */
-    --border-line: 240 6% 18%;
-    --border-subtle: 240 6% 12%;
-    --accent-blue: 213 94% 68%;
-    --accent-blue-subtle: 213 80% 60%;
-    --focus-ring: 213 94% 68%;
+    /* === Dark shadcn + Sky Blue Compatibility === */
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+    --card: var(--bg-panel);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-panel);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--accent-primary);
+    --primary-foreground: 2 8 23;
+    --secondary: var(--accent-subtle);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--bg-elevated);
+    --muted-foreground: var(--text-secondary);
+    --accent: var(--accent-secondary);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--state-error);
+    --destructive-foreground: 248 250 252;
+    --border: var(--border-line);
+    --input: var(--border-line);
+    --ring: var(--accent-primary);
 
-    /* State Colors */
-    --state-positive: 142 76% 36%;
-    --state-negative: 0 84% 60%;
-    --state-warning: 43 96% 56%;
-
-    /* Apple-style shadows for depth */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.04);
-
-    /* Legacy mapping for shadcn compatibility */
-    --background: 240 8% 4%;
-    --foreground: 0 0% 98%;
-    --card: 240 8% 7%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 8% 7%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 213 94% 68%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 6% 18%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 6% 18%;
-    --muted-foreground: 240 4% 65%;
-    --accent: 240 6% 18%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 18%;
-    --input: 240 6% 18%;
-    --ring: 213 94% 68%;
-
-    /* Sidebar system */
-    --sidebar-background: 240 8% 4%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 213 94% 68%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 6% 18%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 6% 18%;
-    --sidebar-ring: 213 94% 68%;
-
-    /* Apple-style smooth transitions */
-    --transition-smooth: all 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-fast: all 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-spring: all 280ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* === Dark Sky Blue Sidebar === */
+    --sidebar-background: var(--bg-panel);
+    --sidebar-foreground: var(--text-primary);
+    --sidebar-primary: var(--accent-primary);
+    --sidebar-primary-foreground: 2 8 23;
+    --sidebar-accent: var(--accent-subtle);
+    --sidebar-accent-foreground: var(--text-primary);
+    --sidebar-border: var(--border-line);
+    --sidebar-ring: var(--accent-primary);
   }
 }
 
@@ -148,11 +144,6 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  /* CERANOS brand typography */
-  .font-brand {
-    font-family: 'DM Serif Display', serif;
   }
 
   /* Icon sizing utilities */
@@ -190,7 +181,7 @@
   /* Custom focus styles */
   .focus-ring {
     @apply outline-none;
-    box-shadow: 0 0 0 2px hsl(var(--focus-ring));
+    box-shadow: 0 0 0 2px hsl(var(--accent-primary));
   }
 
   /* Transition utilities */
@@ -213,15 +204,6 @@
 
   pre code {
     @apply bg-transparent p-0;
-  }
-
-  /* Message styling */
-  .message-user {
-    @apply bg-bg-elevated/60;
-  }
-
-  .message-assistant {
-    @apply bg-card;
   }
 
   /* Scrollbar styling */
@@ -259,4 +241,32 @@
   .animation-delay-300 {
     animation-delay: 300ms;
   }
+}
+
+/* Sky Blue Loading Animation */
+@keyframes loading-dot {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-loading-dot {
+  animation: loading-dot 1.4s ease-in-out infinite;
+}
+
+/* Sky Blue Gradient Utilities */
+.bg-sky-gradient {
+  background: linear-gradient(135deg, hsl(var(--accent-primary)), hsl(var(--accent-secondary)));
+}
+
+.text-sky-gradient {
+  background: linear-gradient(135deg, hsl(var(--accent-primary)), hsl(var(--accent-secondary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

@@ -19,7 +19,6 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'brand': ['DM Serif Display', 'serif'],
 				'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
 			},
 			fontSize: {
@@ -35,7 +34,7 @@ export default {
 				'xs': '475px',
 			},
 			colors: {
-				// CERANOS Design System Colors - Apple-refined
+				// Sky Blue Design System Colors
 				'bg-base': 'hsl(var(--bg-base))',
 				'bg-panel': 'hsl(var(--bg-panel))',
 				'bg-elevated': 'hsl(var(--bg-elevated))',
@@ -44,14 +43,15 @@ export default {
 				'text-tertiary': 'hsl(var(--text-tertiary))',
 				'border-line': 'hsl(var(--border-line))',
 				'border-subtle': 'hsl(var(--border-subtle))',
-				'accent-blue': 'hsl(var(--accent-blue))',
-				'accent-blue-subtle': 'hsl(var(--accent-blue-subtle))',
-				'focus-ring': 'hsl(var(--focus-ring))',
-				'state-positive': 'hsl(var(--state-positive))',
-				'state-negative': 'hsl(var(--state-negative))',
+				'accent-primary': 'hsl(var(--accent-primary))',
+				'accent-secondary': 'hsl(var(--accent-secondary))',
+				'accent-muted': 'hsl(var(--accent-muted))',
+				'accent-subtle': 'hsl(var(--accent-subtle))',
+				'state-success': 'hsl(var(--state-success))',
+				'state-error': 'hsl(var(--state-error))',
 				'state-warning': 'hsl(var(--state-warning))',
 
-				// Legacy shadcn compatibility
+				// shadcn + Sky Blue compatibility
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',

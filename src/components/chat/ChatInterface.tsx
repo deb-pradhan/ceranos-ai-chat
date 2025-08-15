@@ -220,7 +220,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-bg-base">
+    <div className="flex flex-col h-full bg-background">
       <TopBar onToggleSidebar={onToggleSidebar} isSidebarOpen={isSidebarOpen} />
       
       <div className="flex-1 flex flex-col overflow-hidden">
