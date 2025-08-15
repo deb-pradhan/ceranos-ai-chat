@@ -217,7 +217,7 @@
 
   /* Message styling */
   .message-user {
-    @apply bg-transparent;
+    @apply bg-bg-elevated/60;
   }
 
   .message-assistant {
