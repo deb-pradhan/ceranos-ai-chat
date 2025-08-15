@@ -74,23 +74,50 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   const getAssistantResponse = async (userMessage: string): Promise<string> => {
     try {
+      console.log('Invoking chat-webhook edge function...');
       const { data, error } = await supabase.functions.invoke('chat-webhook', {
         body: { message: userMessage }
       });
 
+      console.log('Edge function response:', { data, error });
+
       if (error) {
         console.error('Edge function error:', error);
-        throw new Error('Failed to get AI response');
+        throw new Error(`Service error: ${error.message || 'Unknown error'}`);
+      }
+
+      if (!data) {
+        console.error('No data received from edge function');
+        throw new Error('No response received from service');
       }
 
       if (!data.success) {
-        throw new Error(data.error || 'Webhook request failed');
+        const errorMessage = data.error || 'Service request failed';
+        console.error('Webhook request failed:', errorMessage);
+        throw new Error(errorMessage);
       }
 
+      if (!data.response || typeof data.response !== 'string') {
+        console.error('Invalid response format:', data);
+        throw new Error('Invalid response format received');
+      }
+
+      console.log(`Response received successfully (${data.response.length} chars)`);
       return data.response;
+      
     } catch (error) {
-      console.error('Error calling webhook:', error);
-      throw error;
+      console.error('Error in getAssistantResponse:', error);
+      
+      // Re-throw with user-friendly message if it's already user-friendly
+      if (error.message.includes('Service') || 
+          error.message.includes('temporarily unavailable') ||
+          error.message.includes('timed out') ||
+          error.message.includes('heavy load')) {
+        throw error;
+      }
+      
+      // Otherwise, provide generic user-friendly message
+      throw new Error('Unable to get response. Please try again.');
     }
   };
 
