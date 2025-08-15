@@ -60,60 +60,70 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
   };
 
   return (
-    <div className={`${isMobile ? 'w-80' : 'w-80'} h-full bg-bg-panel border-r border-border-line flex flex-col`}>
+    <div className={`${isMobile ? 'w-84' : 'w-84'} h-full glass-effect border-r border-border-line/50 flex flex-col`}>
       {/* Header */}
-      <div className={`h-16 ${isMobile ? 'px-4' : 'px-6'} flex items-center border-b border-border-line`}>
-        <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-brand text-text-primary`}>CERANOS</h1>
+      <div className={`h-18 ${isMobile ? 'px-5' : 'px-7'} flex items-center border-b border-border-line/50`}>
+        <div className="flex items-center space-x-4">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-accent-blue to-accent-blue-subtle flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200">
+            <MessageSquare className="w-5 h-5 text-white" />
+          </div>
+          <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-brand text-hierarchy-primary tracking-tight`}>CERANOS</h1>
+        </div>
       </div>
 
       {/* New Chat Button */}
-      <div className="p-4">
+      <div className="p-5">
         <Button
           onClick={handleNewChat}
-          className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-11' : ''}`}
+          className={`w-full h-12 bg-gradient-to-r from-accent-blue to-accent-blue-subtle hover:from-accent-blue-subtle hover:to-accent-blue text-white rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 space-x-3`}
         >
-          <Plus className="w-4 h-4 mr-2" />
-          New Chat
+          <Plus className="w-5 h-5" />
+          <span className="font-semibold">New Chat</span>
         </Button>
       </div>
 
       {/* Navigation Links */}
-      <div className="px-4 space-y-1">
+      <div className="px-5 space-y-2">
         <Button
           variant="ghost"
-          className="w-full justify-start text-text-secondary hover:text-text-primary hover:bg-bg-base"
+          className="w-full justify-start glass-effect hover:bg-bg-elevated/60 rounded-2xl p-4 transition-all duration-200 hover:scale-[1.01]"
         >
-          <FileText className="w-4 h-4 mr-3" />
-          Documentation
+          <FileText className="w-5 h-5 mr-3" />
+          <span className="font-medium">Documentation</span>
         </Button>
       </div>
 
       {/* Chat History */}
-      <div className={`flex-1 ${isMobile ? 'px-3' : 'px-4'} mt-6`}>
-        <h3 className="text-sm font-medium text-text-secondary mb-3">Recent Chats</h3>
+      <div className={`flex-1 ${isMobile ? 'px-4' : 'px-5'} mt-6`}>
+        <h3 className="text-sm font-semibold text-hierarchy-tertiary mb-4 px-4 uppercase tracking-wider">Recent Chats</h3>
         <ScrollArea className="h-full">
           {loading ? (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-12 bg-bg-base/50 animate-pulse" />
+                <div key={i} className="h-12 glass-effect animate-apple-pulse rounded-2xl" />
               ))}
             </div>
           ) : chats.length === 0 ? (
-            <div className="text-center py-8 text-text-secondary">
-              <MessageSquare className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No conversations yet</p>
-              <p className="text-xs">Start a new chat to begin</p>
+            <div className="text-center py-8 space-y-3">
+              <div className="w-12 h-12 mx-auto rounded-2xl bg-bg-elevated/60 flex items-center justify-center">
+                <MessageSquare className="w-6 h-6 text-text-secondary/50" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-text-secondary">No conversations yet</p>
+                <p className="text-xs text-text-tertiary">Start a new chat to begin</p>
+              </div>
             </div>
           ) : (
-            <div className="space-y-1">
-              {chats.map((chat) => (
+            <div className="space-y-2">
+              {chats.map((chat, index) => (
                 <div
                   key={chat.id}
-                  className={`group relative flex items-center ${isMobile ? 'p-2.5' : 'p-3'} cursor-pointer transition-smooth hover:bg-bg-base ${
+                  className={`group relative flex items-center p-4 cursor-pointer transition-all duration-300 hover:scale-[1.01] rounded-2xl animate-fade-in-up ${
                     selectedChatId === chat.id 
-                      ? 'bg-bg-base border-l-2 border-l-accent-blue' 
-                      : ''
+                      ? 'bg-gradient-to-r from-accent-blue/20 to-accent-blue-subtle/20 text-accent-blue border border-accent-blue/30 shadow-md' 
+                      : 'hover:bg-bg-elevated/60 glass-effect hover:shadow-md'
                   }`}
+                  style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => onSelectChat(chat.id)}
                 >
                   <div className="flex-1 min-w-0">
@@ -126,15 +136,15 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
                           if (e.key === 'Enter') handleSaveTitle();
                           if (e.key === 'Escape') setEditingChatId(null);
                         }}
-                        className="w-full bg-transparent text-sm text-text-primary border-none outline-none"
+                        className="w-full bg-transparent text-sm text-hierarchy-primary border-none outline-none font-semibold"
                         autoFocus
                       />
                     ) : (
-                      <p className="text-sm text-text-primary truncate">
+                      <p className="text-sm font-semibold text-hierarchy-primary truncate leading-tight">
                         {chat.title}
                       </p>
                     )}
-                    <p className="text-xs text-text-secondary">
+                    <p className="text-xs text-hierarchy-tertiary mt-1.5 font-medium">
                       {new Date(chat.updated_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -144,20 +154,20 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-6 w-6 opacity-0 group-hover:opacity-100 text-text-secondary hover:text-text-primary"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 text-text-secondary hover:text-text-primary rounded-lg transition-all duration-200 hover:scale-105"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={(e) => handleEditTitle(chat.id, chat.title, e)}>
+                    <DropdownMenuContent align="end" className="glass-effect border-border-subtle/50">
+                      <DropdownMenuItem onClick={(e) => handleEditTitle(chat.id, chat.title, e)} className="hover:bg-bg-elevated/60">
                         <Edit3 className="w-4 h-4 mr-2" />
                         Rename
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => handleDeleteChat(chat.id, e)}
-                        className="text-state-negative"
+                        className="text-state-negative hover:bg-state-negative/10"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Delete
@@ -172,40 +182,48 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
       </div>
 
       {/* Authentication Section */}
-      <div className={`${isMobile ? 'p-3' : 'p-4'} border-t border-border-line mt-auto`}>
+      <div className={`${isMobile ? 'p-4' : 'p-5'} border-t border-border-line/50 mt-auto`}>
         {user ? (
           // Authenticated user
-          <>
-            <div className="mb-3">
-              <p className={`${isMobile ? 'text-xs' : 'text-xs'} text-text-secondary truncate`}>
-                {user.email}
-              </p>
+          <div className="space-y-4">
+            <div className="flex items-center space-x-4 p-4 rounded-2xl glass-effect hover:bg-bg-elevated/60 transition-all duration-200">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-text-secondary to-text-tertiary flex items-center justify-center shadow-md">
+                <LogIn className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-hierarchy-primary tracking-tight truncate">
+                  {user.email}
+                </p>
+                <p className="text-xs text-hierarchy-tertiary font-medium">
+                  Market Analyst
+                </p>
+              </div>
             </div>
             <Button
               variant="outline"
               onClick={handleLogout}
-              className={`w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base ${isMobile ? 'h-10' : ''}`}
+              className={`w-full h-11 border-border-subtle/60 hover:bg-bg-elevated/60 rounded-2xl transition-all duration-200 hover:scale-[1.01]`}
             >
               <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
+              <span className="font-medium">Sign Out</span>
             </Button>
-          </>
+          </div>
         ) : (
           // Not authenticated
-          <>
-            <div className="mb-3">
-              <p className="text-xs text-text-secondary">
-                Sign in to save your conversations
+          <div className="space-y-4">
+            <div className="p-4 rounded-2xl glass-effect">
+              <p className="text-xs text-hierarchy-tertiary font-medium leading-relaxed">
+                Sign in to save your conversations and access advanced features
               </p>
             </div>
             <Button
               onClick={() => setShowLoginPopup(true)}
-              className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-10' : ''}`}
+              className={`w-full h-11 bg-gradient-to-r from-accent-blue to-accent-blue-subtle hover:from-accent-blue-subtle hover:to-accent-blue text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]`}
             >
               <LogIn className="w-4 h-4 mr-2" />
-              Sign In
+              <span className="font-semibold">Sign In</span>
             </Button>
-          </>
+          </div>
         )}
       </div>
 
