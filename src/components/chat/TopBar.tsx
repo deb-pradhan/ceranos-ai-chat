@@ -38,26 +38,28 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarOpen }
   };
 
   return (
-    <div className="flex items-center justify-between h-12 sm:h-14 px-4 sm:px-6 border-b border-border-subtle bg-bg-base/95 backdrop-blur-xl shadow-sm">
+    <div className="flex items-center justify-between h-12 sm:h-14 px-3 sm:px-4 border-b border-border-subtle bg-bg-base/95 backdrop-blur-xl shadow-sm">
       {/* Left Section */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         {/* Mobile hamburger menu */}
         {isMobile && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onToggleSidebar}
-            className="text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
+            className="flex-shrink-0 touch-target text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
           >
             <Menu className="icon-sm" />
           </Button>
         )}
         
         {/* Connection status */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
-          {getConnectionIcon()}
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+          <div className="flex-shrink-0">
+            {getConnectionIcon()}
+          </div>
           {!isMobile && (
-            <span className="text-xs sm:text-sm text-text-secondary font-semibold tracking-wide">{getConnectionText()}</span>
+            <span className="text-xs text-text-secondary font-medium truncate">{getConnectionText()}</span>
           )}
         </div>
       </div>
@@ -67,7 +69,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarOpen }
         variant="ghost"
         size="icon"
         onClick={toggleTheme}
-        className="text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
+        className="flex-shrink-0 touch-target text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
       >
         {theme === 'dark' ? <Sun className="icon-sm" /> : <Moon className="icon-sm" />}
       </Button>

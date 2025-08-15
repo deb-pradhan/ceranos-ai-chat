@@ -49,8 +49,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
 
   return (
     <div className="border-t border-border-subtle bg-bg-base/95 backdrop-blur-xl">
-      <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5">
-        <form onSubmit={handleSubmit} className="flex items-end gap-2 sm:gap-3">
+      <div className="px-3 sm:px-4 py-3 sm:py-4">
+        <form onSubmit={handleSubmit} className="flex items-end gap-2">
           {/* Attachment button (future) */}
           <Button
             type="button"
@@ -58,9 +58,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
             size="icon"
             onClick={handleAttachments}
             disabled={disabled}
-            className="flex-shrink-0 text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-xl transition-all duration-200"
+            className="flex-shrink-0 touch-target text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-xl transition-all duration-200"
           >
-            <Plus className="icon-md" />
+            <Plus className="icon-sm" />
           </Button>
 
           {/* Message input */}
@@ -72,14 +72,14 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
               onKeyDown={handleKeyDown}
               placeholder="Ask CERANOS about the markets..."
               disabled={disabled}
-              className="min-h-[44px] sm:min-h-[52px] max-h-24 sm:max-h-28 resize-none border-border-line bg-bg-panel text-text-primary placeholder:text-text-secondary focus-visible:ring-2 focus-visible:ring-focus-ring/20 focus-visible:border-accent-blue rounded-xl shadow-sm transition-all duration-200 px-3 sm:px-4 py-3 text-sm sm:text-base"
+              className="min-h-[44px] max-h-24 resize-none border-border-line bg-bg-panel text-text-primary placeholder:text-text-secondary focus-visible:ring-2 focus-visible:ring-focus-ring/20 focus-visible:border-accent-blue rounded-xl shadow-sm transition-all duration-200 px-3 py-3 text-sm"
               rows={1}
             />
-            <div className="absolute bottom-2.5 sm:bottom-3 right-3 sm:right-4 text-xs text-text-tertiary pointer-events-none">
-              <span className="hidden sm:inline font-semibold tracking-wide">
+            <div className="absolute bottom-2 right-2 sm:bottom-2.5 sm:right-3 text-xs text-text-tertiary pointer-events-none">
+              <span className="hidden sm:inline font-medium tracking-wide">
                 <span className="inline-block mr-1">⏎</span>Send · <span className="inline-block mr-1">⇧⏎</span>New line
               </span>
-              <span className="sm:hidden font-semibold tracking-wide">Tap to send</span>
+              <span className="sm:hidden font-medium">Tap to send</span>
             </div>
           </div>
 
@@ -88,18 +88,18 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
             type="submit"
             disabled={disabled || !message.trim()}
             size="icon"
-            className="flex-shrink-0 bg-accent-blue hover:bg-accent-blue-subtle text-white disabled:bg-bg-panel disabled:text-text-secondary rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
+            className="flex-shrink-0 touch-target bg-accent-blue hover:bg-accent-blue-subtle text-white disabled:bg-bg-panel disabled:text-text-secondary rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
           >
             {disabled ? (
-              <div className="icon-sm border-2 border-text-secondary/20 border-t-text-secondary/60 rounded-full animate-spin"></div>
+              <div className="icon-xs border-2 border-text-secondary/20 border-t-text-secondary/60 rounded-full animate-spin"></div>
             ) : (
-              <Send className="icon-md" />
+              <Send className="icon-sm" />
             )}
           </Button>
         </form>
 
         {/* Help text */}
-        <div className="mt-2 sm:mt-3 text-xs sm:text-sm text-text-tertiary font-semibold tracking-wide">
+        <div className="mt-2 text-xs text-text-tertiary font-medium">
           CERANOS can make mistakes. Consider checking important information.
         </div>
       </div>
