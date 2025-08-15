@@ -3,11 +3,6 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { AppSidebar } from '@/components/sidebar/AppSidebar';
 import { ChatInterface } from '@/components/chat/ChatInterface';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
 
 const Index = () => {
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
@@ -17,6 +12,7 @@ const Index = () => {
   const handleSelectChat = (chatId: string | null) => {
     console.log('Selecting chat:', chatId);
     setSelectedChatId(chatId);
+    // Close sidebar on mobile after selecting chat
     if (isMobile) {
       setIsSidebarOpen(false);
     }
@@ -24,6 +20,7 @@ const Index = () => {
 
   const handleNewChat = () => {
     setSelectedChatId(null);
+    // Close sidebar on mobile after starting new chat
     if (isMobile) {
       setIsSidebarOpen(false);
     }
@@ -35,66 +32,40 @@ const Index = () => {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen w-full bg-background">
-        {/* Mobile Layout with Drawer */}
-        {isMobile ? (
-          <div className="flex flex-col h-screen">
-            <Drawer open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-              <DrawerTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="fixed top-4 left-4 z-50 bg-background/80 backdrop-blur-sm border shadow-lg"
-                  onClick={toggleSidebar}
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent className="h-[85vh]">
-                <div className="h-full overflow-hidden">
-                  <AppSidebar 
-                    selectedChatId={selectedChatId}
-                    onSelectChat={handleSelectChat}
-                    isMobile={true}
-                  />
-                </div>
-              </DrawerContent>
-            </Drawer>
-            
-            <div className="flex-1 overflow-hidden">
-              <ChatInterface 
-                selectedChatId={selectedChatId}
-                onNewChat={handleNewChat}
-                onToggleSidebar={toggleSidebar}
-                isSidebarOpen={isSidebarOpen}
-              />
-            </div>
-          </div>
-        ) : (
-          /* Desktop Layout with Resizable Panels */
-          <SidebarProvider>
-            <ResizablePanelGroup direction="horizontal" className="h-screen">
-              <ResizablePanel defaultSize={20} minSize={15} maxSize={30}>
-                <AppSidebar 
-                  selectedChatId={selectedChatId}
-                  onSelectChat={handleSelectChat}
-                  isMobile={false}
-                />
-              </ResizablePanel>
-              
-              <ResizableHandle className="w-2 bg-border hover:bg-accent-primary/20 transition-colors" />
-              
-              <ResizablePanel defaultSize={80}>
-                <ChatInterface 
-                  selectedChatId={selectedChatId}
-                  onNewChat={handleNewChat}
-                  onToggleSidebar={toggleSidebar}
-                  isSidebarOpen={isSidebarOpen}
-                />
-              </ResizablePanel>
-            </ResizablePanelGroup>
-          </SidebarProvider>
+      <div className="h-screen flex bg-bg-base relative">
+        {/* Mobile overlay */}
+        {isMobile && isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
         )}
+        
+        {/* Sidebar */}
+        <div className={`
+          ${isMobile 
+            ? `fixed left-0 top-0 h-full z-50 transform transition-transform duration-300 ${
+                isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+              }`
+            : 'relative'
+          }
+        `}>
+          <AppSidebar 
+            selectedChatId={selectedChatId}
+            onSelectChat={handleSelectChat}
+            isMobile={isMobile}
+          />
+        </div>
+
+        {/* Main content */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <ChatInterface 
+            selectedChatId={selectedChatId}
+            onNewChat={handleNewChat}
+            onToggleSidebar={toggleSidebar}
+            isSidebarOpen={isSidebarOpen}
+          />
+        </div>
       </div>
     </AuthProvider>
   );

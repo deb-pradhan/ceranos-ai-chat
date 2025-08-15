@@ -19,39 +19,22 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-			},
-			fontSize: {
-				'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.02em' }],
-				'sm': ['0.875rem', { lineHeight: '1.5', letterSpacing: '0.01em' }],
-				'base': ['1rem', { lineHeight: '1.6', letterSpacing: '0' }],
-				'lg': ['1.125rem', { lineHeight: '1.6', letterSpacing: '-0.01em' }],
-				'xl': ['1.25rem', { lineHeight: '1.5', letterSpacing: '-0.02em' }],
-				'2xl': ['1.5rem', { lineHeight: '1.4', letterSpacing: '-0.02em' }],
-				'3xl': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.03em' }],
-			},
-			screens: {
-				'xs': '475px',
+				'brand': ['DM Serif Display', 'serif'],
+				'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
 			},
 			colors: {
-				// Sky Blue Design System Colors
+				// CERANOS Design System Colors
 				'bg-base': 'hsl(var(--bg-base))',
 				'bg-panel': 'hsl(var(--bg-panel))',
-				'bg-elevated': 'hsl(var(--bg-elevated))',
 				'text-primary': 'hsl(var(--text-primary))',
 				'text-secondary': 'hsl(var(--text-secondary))',
-				'text-tertiary': 'hsl(var(--text-tertiary))',
 				'border-line': 'hsl(var(--border-line))',
-				'border-subtle': 'hsl(var(--border-subtle))',
-				'accent-primary': 'hsl(var(--accent-primary))',
-				'accent-secondary': 'hsl(var(--accent-secondary))',
-				'accent-muted': 'hsl(var(--accent-muted))',
-				'accent-subtle': 'hsl(var(--accent-subtle))',
-				'state-success': 'hsl(var(--state-success))',
-				'state-error': 'hsl(var(--state-error))',
-				'state-warning': 'hsl(var(--state-warning))',
+				'accent-blue': 'hsl(var(--accent-blue))',
+				'focus-ring': 'hsl(var(--focus-ring))',
+				'state-positive': 'hsl(var(--state-positive))',
+				'state-negative': 'hsl(var(--state-negative))',
 
-				// shadcn + Sky Blue compatibility
+				// Legacy shadcn compatibility
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -98,24 +81,11 @@ export default {
 			},
 			borderRadius: {
 				'none': '0px',
-				'xs': '4px',
-				'sm': '6px',
-				DEFAULT: '8px',
-				'md': '10px',
-				'lg': '12px',
-				'xl': '16px',
-				'2xl': '20px',
-				'full': '9999px'
-			},
-			boxShadow: {
-				'sm': 'var(--shadow-sm)',
-				'md': 'var(--shadow-md)',
-				'lg': 'var(--shadow-lg)',
-				'xl': 'var(--shadow-xl)',
-			},
-			spacing: {
-				'18': '4.5rem',
-				'88': '22rem',
+				DEFAULT: '0px',
+				lg: '0px',
+				md: '0px',
+				sm: '0px',
+				full: '0px'
 			},
 			transitionDuration: {
 				'120': '120ms',
@@ -149,16 +119,6 @@ export default {
 						opacity: '1'
 					}
 				},
-				'fade-in': {
-					'0%': {
-						opacity: '0',
-						transform: 'translateY(8px)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'translateY(0)'
-					}
-				},
 				'fade-in-up': {
 					'0%': {
 						opacity: '0',
@@ -174,7 +134,6 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'loading-dot': 'loading-dot 1.4s ease-in-out infinite',
-				'fade-in': 'fade-in 0.25s ease-out',
 				'fade-in-up': 'fade-in-up 0.3s ease-out'
 			},
 			animationDelay: {

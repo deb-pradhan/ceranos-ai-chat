@@ -74,50 +74,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   const getAssistantResponse = async (userMessage: string): Promise<string> => {
     try {
-      console.log('Invoking chat-webhook edge function...');
       const { data, error } = await supabase.functions.invoke('chat-webhook', {
         body: { message: userMessage }
       });
 
-      console.log('Edge function response:', { data, error });
-
       if (error) {
         console.error('Edge function error:', error);
-        throw new Error(`Service error: ${error.message || 'Unknown error'}`);
-      }
-
-      if (!data) {
-        console.error('No data received from edge function');
-        throw new Error('No response received from service');
+        throw new Error('Failed to get AI response');
       }
 
       if (!data.success) {
-        const errorMessage = data.error || 'Service request failed';
-        console.error('Webhook request failed:', errorMessage);
-        throw new Error(errorMessage);
+        throw new Error(data.error || 'Webhook request failed');
       }
 
-      if (!data.response || typeof data.response !== 'string') {
-        console.error('Invalid response format:', data);
-        throw new Error('Invalid response format received');
-      }
-
-      console.log(`Response received successfully (${data.response.length} chars)`);
       return data.response;
-      
     } catch (error) {
-      console.error('Error in getAssistantResponse:', error);
-      
-      // Re-throw with user-friendly message if it's already user-friendly
-      if (error.message.includes('Service') || 
-          error.message.includes('temporarily unavailable') ||
-          error.message.includes('timed out') ||
-          error.message.includes('heavy load')) {
-        throw error;
-      }
-      
-      // Otherwise, provide generic user-friendly message
-      throw new Error('Unable to get response. Please try again.');
+      console.error('Error calling webhook:', error);
+      throw error;
     }
   };
 
@@ -220,7 +193,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-bg-base">
       <TopBar onToggleSidebar={onToggleSidebar} isSidebarOpen={isSidebarOpen} />
       
       <div className="flex-1 flex flex-col overflow-hidden">
