@@ -60,37 +60,38 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
   };
 
   return (
-    <div className={`${isMobile ? 'w-80' : 'w-80'} h-full bg-bg-panel border-r border-border-line flex flex-col`}>
+    <div className={`${isMobile ? 'w-[280px] xs:w-80' : 'w-80 lg:w-[320px]'} h-full bg-bg-panel border-r border-border-line flex flex-col`}>
       {/* Header */}
-      <div className={`h-16 ${isMobile ? 'px-4' : 'px-6'} flex items-center border-b border-border-line`}>
-        <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-brand text-text-primary`}>CERANOS</h1>
+      <div className="h-14 sm:h-16 px-4 sm:px-6 flex items-center border-b border-border-line">
+        <h1 className="text-lg sm:text-xl lg:text-2xl font-brand text-text-primary tracking-tight">CERANOS</h1>
       </div>
 
       {/* New Chat Button */}
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         <Button
           onClick={handleNewChat}
-          className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-11' : ''}`}
+          className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
+          size="lg"
         >
-          <Plus className="w-4 h-4 mr-2" />
-          New Chat
+          <Plus className="icon-sm mr-2" />
+          <span className="text-sm sm:text-base font-medium">New Chat</span>
         </Button>
       </div>
 
       {/* Navigation Links */}
-      <div className="px-4 space-y-1">
+      <div className="px-3 sm:px-4 space-y-1">
         <Button
           variant="ghost"
-          className="w-full justify-start text-text-secondary hover:text-text-primary hover:bg-bg-base"
+          className="w-full justify-start text-text-secondary hover:text-text-primary hover:bg-bg-base h-10 sm:h-11"
         >
-          <FileText className="w-4 h-4 mr-3" />
-          Documentation
+          <FileText className="icon-sm mr-3" />
+          <span className="text-sm sm:text-base">Documentation</span>
         </Button>
       </div>
 
       {/* Chat History */}
-      <div className={`flex-1 ${isMobile ? 'px-3' : 'px-4'} mt-6`}>
-        <h3 className="text-sm font-medium text-text-secondary mb-3">Recent Chats</h3>
+      <div className="flex-1 px-3 sm:px-4 mt-4 sm:mt-6">
+        <h3 className="text-xs sm:text-sm font-semibold text-text-secondary mb-3 tracking-wide uppercase">Recent Chats</h3>
         <ScrollArea className="h-full">
           {loading ? (
             <div className="space-y-2">
@@ -99,20 +100,20 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
               ))}
             </div>
           ) : chats.length === 0 ? (
-            <div className="text-center py-8 text-text-secondary">
-              <MessageSquare className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No conversations yet</p>
-              <p className="text-xs">Start a new chat to begin</p>
+            <div className="text-center py-6 sm:py-8 text-text-secondary">
+              <MessageSquare className="icon-lg mx-auto mb-3 opacity-50" />
+              <p className="text-sm sm:text-base font-medium">No conversations yet</p>
+              <p className="text-xs sm:text-sm mt-1">Start a new chat to begin</p>
             </div>
           ) : (
             <div className="space-y-1">
               {chats.map((chat) => (
                 <div
                   key={chat.id}
-                  className={`group relative flex items-center ${isMobile ? 'p-2.5' : 'p-3'} cursor-pointer transition-smooth hover:bg-bg-base ${
+                  className={`group relative flex items-center p-2.5 sm:p-3 cursor-pointer transition-all duration-200 hover:bg-bg-base rounded-lg ${
                     selectedChatId === chat.id 
-                      ? 'bg-bg-base border-l-2 border-l-accent-blue' 
-                      : ''
+                      ? 'bg-bg-base border-l-2 border-l-accent-blue shadow-sm' 
+                      : 'hover:shadow-sm'
                   }`}
                   onClick={() => onSelectChat(chat.id)}
                 >
@@ -130,11 +131,11 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
                         autoFocus
                       />
                     ) : (
-                      <p className="text-sm text-text-primary truncate">
+                      <p className="text-sm sm:text-base text-text-primary truncate font-medium leading-tight">
                         {chat.title}
                       </p>
                     )}
-                    <p className="text-xs text-text-secondary">
+                    <p className="text-xs sm:text-sm text-text-secondary mt-0.5 font-medium">
                       {new Date(chat.updated_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -143,24 +144,24 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 opacity-0 group-hover:opacity-100 text-text-secondary hover:text-text-primary"
+                        size="sm"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 text-text-secondary hover:text-text-primary rounded-md"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <MoreHorizontal className="w-4 h-4" />
+                        <MoreHorizontal className="icon-sm" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={(e) => handleEditTitle(chat.id, chat.title, e)}>
-                        <Edit3 className="w-4 h-4 mr-2" />
-                        Rename
+                        <Edit3 className="icon-sm mr-2" />
+                        <span className="text-sm">Rename</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem 
                         onClick={(e) => handleDeleteChat(chat.id, e)}
                         className="text-state-negative"
                       >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
+                        <Trash2 className="icon-sm mr-2" />
+                        <span className="text-sm">Delete</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -172,38 +173,38 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
       </div>
 
       {/* Authentication Section */}
-      <div className={`${isMobile ? 'p-3' : 'p-4'} border-t border-border-line mt-auto`}>
+      <div className="p-3 sm:p-4 border-t border-border-line mt-auto">
         {user ? (
           // Authenticated user
           <>
             <div className="mb-3">
-              <p className={`${isMobile ? 'text-xs' : 'text-xs'} text-text-secondary truncate`}>
+              <p className="text-xs sm:text-sm text-text-secondary truncate font-medium">
                 {user.email}
               </p>
             </div>
             <Button
               variant="outline"
               onClick={handleLogout}
-              className={`w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base ${isMobile ? 'h-10' : ''}`}
+              className="w-full border-border-line text-text-secondary hover:text-text-primary hover:bg-bg-base"
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
+              <LogOut className="icon-sm mr-2" />
+              <span className="text-sm sm:text-base">Sign Out</span>
             </Button>
           </>
         ) : (
           // Not authenticated
           <>
             <div className="mb-3">
-              <p className="text-xs text-text-secondary">
+              <p className="text-xs sm:text-sm text-text-secondary font-medium leading-relaxed">
                 Sign in to save your conversations
               </p>
             </div>
             <Button
               onClick={() => setShowLoginPopup(true)}
-              className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-10' : ''}`}
+              className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
             >
-              <LogIn className="w-4 h-4 mr-2" />
-              Sign In
+              <LogIn className="icon-sm mr-2" />
+              <span className="text-sm sm:text-base">Sign In</span>
             </Button>
           </>
         )}

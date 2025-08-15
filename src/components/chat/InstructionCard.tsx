@@ -52,43 +52,43 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
   onExampleClick 
 }) => {
   return (
-    <Card className="mx-4 md:mx-6 mt-4 md:mt-6 mb-4 border-border-subtle bg-bg-panel/80 backdrop-blur-sm shadow-lg">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-5">
-        <CardTitle className="text-lg md:text-xl font-semibold text-text-primary tracking-tight">
+    <Card className="mx-3 sm:mx-4 md:mx-6 mt-3 sm:mt-4 md:mt-6 mb-3 sm:mb-4 border-border-subtle bg-bg-panel/80 backdrop-blur-sm shadow-lg">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 sm:pb-5">
+        <CardTitle className="text-base sm:text-lg md:text-xl font-bold text-text-primary tracking-tight">
           Ask CERANOS about the markets
         </CardTitle>
         <Button
           variant="ghost"
-          size="icon"
+          size="sm"
           onClick={onDismiss}
-          className="h-9 w-9 text-text-secondary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
+          className="h-8 w-8 sm:h-9 sm:w-9 text-text-secondary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
         >
-          <X className="h-4 w-4" />
+          <X className="icon-sm" />
         </Button>
       </CardHeader>
-      <CardContent className="space-y-5">
-        <p className="text-text-secondary text-sm md:text-base leading-relaxed">
+      <CardContent className="space-y-4 sm:space-y-5">
+        <p className="text-text-secondary text-sm sm:text-base leading-relaxed font-medium">
           Get instant insights on crypto markets, sentiment analysis, and on-chain metrics. 
           Try asking about specific coins, market trends, or risk assessments.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
           {examples.map((example, index) => {
             const IconComponent = example.icon;
             return (
               <button
                 key={index}
                 onClick={() => onExampleClick(example.text)}
-                className="flex items-start gap-3 md:gap-4 p-4 md:p-5 border border-border-subtle bg-bg-elevated hover:bg-bg-base hover:border-accent-blue/30 hover:shadow-md rounded-xl transition-all duration-300 text-left group"
+                className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 border border-border-subtle bg-bg-elevated hover:bg-bg-base hover:border-accent-blue/30 hover:shadow-md rounded-xl transition-all duration-300 text-left group touch-target"
               >
-                <div className={`p-2 md:p-2.5 bg-${example.color}/15 text-${example.color} group-hover:bg-${example.color}/25 rounded-lg transition-all duration-300 flex-shrink-0 shadow-sm`}>
-                  <IconComponent className="h-4 w-4 md:h-5 md:w-5" />
+                <div className={`p-2 sm:p-2.5 bg-${example.color}/15 text-${example.color} group-hover:bg-${example.color}/25 rounded-lg transition-all duration-300 flex-shrink-0 shadow-sm`}>
+                  <IconComponent className="icon-sm" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-semibold text-accent-blue mb-2 tracking-wide uppercase">
+                  <div className="text-xs sm:text-sm font-bold text-accent-blue mb-1.5 sm:mb-2 tracking-wide uppercase">
                     {example.category}
                   </div>
-                  <div className="text-sm md:text-base text-text-primary group-hover:text-accent-blue transition-all duration-300 leading-relaxed">
+                  <div className="text-sm sm:text-base text-text-primary group-hover:text-accent-blue transition-all duration-300 leading-relaxed font-medium">
                     {example.text}
                   </div>
                 </div>
@@ -97,9 +97,9 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
           })}
         </div>
 
-        <div className="mt-6 pt-5 border-t border-border-subtle">
-          <p className="text-sm text-text-secondary leading-relaxed">
-            💡 <strong className="text-text-primary">Pro tip:</strong> Be specific about timeframes, coins, and metrics for better insights
+        <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-border-subtle">
+          <p className="text-sm sm:text-base text-text-secondary leading-relaxed font-medium">
+            💡 <strong className="text-text-primary font-bold">Pro tip:</strong> Be specific about timeframes, coins, and metrics for better insights
           </p>
         </div>
       </CardContent>

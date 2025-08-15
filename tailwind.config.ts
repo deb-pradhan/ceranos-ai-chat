@@ -23,11 +23,16 @@ export default {
 				'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
 			},
 			fontSize: {
-				'xs': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.01em' }],
-				'sm': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em' }],
-				'base': ['1rem', { lineHeight: '1.5rem', letterSpacing: '0.01em' }],
-				'lg': ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '0.01em' }],
-				'xl': ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '0.01em' }],
+				'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.02em' }],
+				'sm': ['0.875rem', { lineHeight: '1.5', letterSpacing: '0.01em' }],
+				'base': ['1rem', { lineHeight: '1.6', letterSpacing: '0' }],
+				'lg': ['1.125rem', { lineHeight: '1.6', letterSpacing: '-0.01em' }],
+				'xl': ['1.25rem', { lineHeight: '1.5', letterSpacing: '-0.02em' }],
+				'2xl': ['1.5rem', { lineHeight: '1.4', letterSpacing: '-0.02em' }],
+				'3xl': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.03em' }],
+			},
+			screens: {
+				'xs': '475px',
 			},
 			colors: {
 				// CERANOS Design System Colors - Apple-refined
@@ -144,6 +149,16 @@ export default {
 						opacity: '1'
 					}
 				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(8px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
 				'fade-in-up': {
 					'0%': {
 						opacity: '0',
@@ -159,6 +174,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'loading-dot': 'loading-dot 1.4s ease-in-out infinite',
+				'fade-in': 'fade-in 0.25s ease-out',
 				'fade-in-up': 'fade-in-up 0.3s ease-out'
 			},
 			animationDelay: {

@@ -57,41 +57,41 @@ export const MessageList: React.FC<MessageListProps> = ({
     return (
       <div
         key={message.id}
-        className={`px-4 md:px-6 py-5 md:py-6 ${isUser ? 'message-user' : 'message-assistant bg-bg-panel/50 border-l-4 border-l-accent-blue/30'}`}
+        className={`px-3 sm:px-4 md:px-6 py-4 sm:py-5 md:py-6 ${isUser ? 'message-user' : 'message-assistant bg-bg-panel/50 border-l-2 sm:border-l-4 border-l-accent-blue/30'}`}
       >
-        <div className="flex items-start gap-3 md:gap-4">
+        <div className="flex items-start gap-3 sm:gap-4">
           {/* Avatar */}
-          <div className={`flex-shrink-0 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-lg ${isUser ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/20' : 'bg-bg-elevated text-text-secondary border border-border-subtle'} shadow-sm`}>
-            {isUser ? <User className="w-4 h-4 md:w-4 md:h-4" /> : <Bot className="w-4 h-4 md:w-4 md:h-4" />}
+          <div className={`flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg ${isUser ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/20' : 'bg-bg-elevated text-text-secondary border border-border-subtle'} shadow-sm`}>
+            {isUser ? <User className="icon-sm" /> : <Bot className="icon-sm" />}
           </div>
 
           {/* Message content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-sm font-semibold text-text-primary">
+            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+              <span className="text-sm sm:text-base font-bold text-text-primary tracking-tight">
                 {isUser ? 'You' : 'CERANOS'}
               </span>
-              <span className="text-xs text-text-tertiary font-medium">
+              <span className="text-xs sm:text-sm text-text-tertiary font-semibold tracking-wide">
                 {formatTimestamp(message.created_at)}
               </span>
             </div>
 
             <div className="prose prose-sm max-w-none text-text-primary">
-              <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed tracking-tight">
+              <pre className="whitespace-pre-wrap font-sans text-sm sm:text-base leading-relaxed tracking-tight">
                 {message.content}
               </pre>
             </div>
 
             {/* Message actions */}
-            <div className="flex items-center gap-2 mt-4">
+            <div className="flex items-center gap-1 sm:gap-2 mt-3 sm:mt-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(message.content)}
-                className="h-8 px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
+                className="h-8 sm:h-9 px-2 sm:px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
               >
-                <Copy className="w-3 h-3 mr-1.5" />
-                Copy
+                <Copy className="icon-xs sm:w-3 sm:h-3 mr-1 sm:mr-1.5" />
+                <span className="text-xs sm:text-sm font-semibold">Copy</span>
               </Button>
 
               {isLastAssistantMessage && !isLoading && (
@@ -99,10 +99,10 @@ export const MessageList: React.FC<MessageListProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={onRegenerateResponse}
-                  className="h-8 px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
+                  className="h-8 sm:h-9 px-2 sm:px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
                 >
-                  <RotateCcw className="w-3 h-3 mr-1.5" />
-                  Regenerate
+                  <RotateCcw className="icon-xs sm:w-3 sm:h-3 mr-1 sm:mr-1.5" />
+                  <span className="text-xs sm:text-sm font-semibold">Regenerate</span>
                 </Button>
               )}
             </div>
@@ -114,11 +114,11 @@ export const MessageList: React.FC<MessageListProps> = ({
 
   if (messages.length === 0 && !streamingContent && !loadingPhase) {
     return (
-      <div className="flex-1 flex items-center justify-center text-text-secondary">
-        <div className="text-center">
-          <Bot className="w-12 h-12 mx-auto mb-4 text-text-secondary/50" />
-          <p className="text-lg font-medium">Ready to analyze the markets</p>
-          <p className="text-sm">Ask me anything about crypto trends, sentiment, or on-chain data</p>
+      <div className="flex-1 flex items-center justify-center text-text-secondary px-4">
+        <div className="text-center max-w-md">
+          <Bot className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 text-text-secondary/50" />
+          <p className="text-base sm:text-lg font-bold text-text-primary mb-2">Ready to analyze the markets</p>
+          <p className="text-sm sm:text-base font-medium leading-relaxed">Ask me anything about crypto trends, sentiment, or on-chain data</p>
         </div>
       </div>
     );
@@ -131,17 +131,17 @@ export const MessageList: React.FC<MessageListProps> = ({
         
         {/* Loading phase indicator */}
         {loadingPhase && (
-          <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20 animate-fade-in-up">
-            <div className="flex items-start gap-3 md:gap-4">
-              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
-                <Bot className="w-3 h-3 md:w-4 md:h-4" />
+          <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-5 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20 animate-fade-in">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line rounded-lg">
+                <Bot className="icon-sm" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm font-medium text-text-primary">CERANOS</span>
-                  <span className="text-xs text-text-secondary">now</span>
+                  <span className="text-sm sm:text-base font-bold text-text-primary">CERANOS</span>
+                  <span className="text-xs sm:text-sm text-text-secondary font-semibold">now</span>
                 </div>
-                <div className="py-2">
+                <div className="py-1 sm:py-2">
                   <LoadingIndicator phase={loadingPhase} />
                 </div>
               </div>
@@ -151,20 +151,20 @@ export const MessageList: React.FC<MessageListProps> = ({
         
         {/* Streaming message */}
         {streamingContent && (
-          <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20">
-            <div className="flex items-start gap-3 md:gap-4">
-              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
-                <Bot className="w-3 h-3 md:w-4 md:h-4" />
+          <div className="px-3 sm:px-4 md:px-6 py-4 sm:py-5 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line rounded-lg">
+                <Bot className="icon-sm" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm font-medium text-text-primary">CERANOS</span>
-                  <span className="text-xs text-text-secondary">now</span>
+                  <span className="text-sm sm:text-base font-bold text-text-primary">CERANOS</span>
+                  <span className="text-xs sm:text-sm text-text-secondary font-semibold">now</span>
                 </div>
                 <div className="prose prose-sm max-w-none text-text-primary">
-                  <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
+                  <pre className="whitespace-pre-wrap font-sans text-sm sm:text-base leading-relaxed">
                     {streamingContent}
-                    <span className="inline-block w-2 h-4 bg-accent-blue/50 ml-1 animate-pulse"></span>
+                    <span className="inline-block w-1.5 sm:w-2 h-3 sm:h-4 bg-accent-blue/50 ml-1 animate-pulse"></span>
                   </pre>
                 </div>
               </div>
