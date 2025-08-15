@@ -49,8 +49,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
 
   return (
     <div className="border-t border-border-line bg-bg-base">
-      <div className="px-4 md:px-6 py-4">
-        <form onSubmit={handleSubmit} className="flex items-end gap-3">
+      <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+        <form onSubmit={handleSubmit} className="flex items-end gap-2 sm:gap-3">
           {/* Attachment button (future) */}
           <Button
             type="button"
@@ -58,9 +58,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
             size="icon"
             onClick={handleAttachments}
             disabled={disabled}
-            className="flex-shrink-0 h-11 w-11 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
+            className="flex-shrink-0 h-12 w-12 sm:h-11 sm:w-11 text-text-secondary hover:text-text-primary hover:bg-bg-panel"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="w-5 h-5 sm:w-4 sm:h-4" />
           </Button>
 
           {/* Message input */}
@@ -72,10 +72,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
               onKeyDown={handleKeyDown}
               placeholder="Ask CERANOS about the markets..."
               disabled={disabled}
-              className="min-h-[48px] max-h-24 resize-none border-border-line bg-bg-base text-text-primary placeholder:text-text-secondary focus-visible:ring-focus-ring pr-4 text-base"
+              className="min-h-[52px] sm:min-h-[48px] max-h-28 sm:max-h-24 resize-none border-border-line bg-bg-base text-text-primary placeholder:text-text-secondary focus-visible:ring-focus-ring pr-12 sm:pr-4 text-base sm:text-sm"
               rows={1}
             />
-            <div className="absolute bottom-2 right-2 text-xs text-text-secondary pointer-events-none">
+            <div className="absolute bottom-2 right-2 text-xs sm:text-xs text-text-secondary pointer-events-none">
               <span className="hidden sm:inline">
                 <span className="inline-block mr-1">⏎</span>Send · <span className="inline-block mr-1">⇧⏎</span>New line
               </span>
@@ -87,18 +87,18 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
           <Button
             type="submit"
             disabled={disabled || !message.trim()}
-            className="flex-shrink-0 h-11 w-11 bg-accent-blue hover:bg-accent-blue/90 text-white disabled:bg-bg-panel disabled:text-text-secondary"
+            className="flex-shrink-0 h-12 w-12 sm:h-11 sm:w-11 bg-accent-blue hover:bg-accent-blue/90 text-white disabled:bg-bg-panel disabled:text-text-secondary"
           >
             {disabled ? (
-              <div className="w-4 h-4 border-2 border-text-secondary/20 border-t-text-secondary/60 rounded-full animate-spin"></div>
+              <div className="w-5 h-5 sm:w-4 sm:h-4 border-2 border-text-secondary/20 border-t-text-secondary/60 rounded-full animate-spin"></div>
             ) : (
-              <Send className="w-5 h-5" />
+              <Send className="w-5 h-5 sm:w-4 sm:h-4" />
             )}
           </Button>
         </form>
 
         {/* Help text */}
-        <div className="mt-2 text-xs text-text-secondary">
+        <div className="mt-2 text-xs sm:text-xs text-text-secondary">
           CERANOS can make mistakes. Consider checking important information.
         </div>
       </div>
