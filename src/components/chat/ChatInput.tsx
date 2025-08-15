@@ -70,7 +70,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask CERANOS about the markets..."
+              placeholder="Ask Ceranos....."
               disabled={disabled}
               className="min-h-[52px] sm:min-h-[48px] max-h-28 sm:max-h-24 resize-none border-border-line bg-bg-base text-text-primary placeholder:text-text-secondary focus-visible:ring-focus-ring pr-12 sm:pr-4 text-base sm:text-sm"
               rows={1}
