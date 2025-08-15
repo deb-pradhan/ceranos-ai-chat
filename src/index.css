@@ -28,7 +28,6 @@
     --state-positive: 142 76% 36%;
     --state-negative: 0 84% 60%;
     --state-warning: 43 96% 56%;
-    --accent-green: 142 76% 36%;
 
     /* Apple-style shadows for depth */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -96,7 +95,6 @@
     --state-positive: 142 76% 36%;
     --state-negative: 0 84% 60%;
     --state-warning: 43 96% 56%;
-    --accent-green: 142 76% 36%;
 
     /* Apple-style shadows for depth */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -152,85 +150,25 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-/* Apple-Inspired Typography System */
-.font-brand {
-  font-family: 'DM Serif Display', serif;
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
+  /* CERANOS brand typography */
+  .font-brand {
+    font-family: 'DM Serif Display', serif;
+  }
 
-.text-hierarchy-primary {
-  color: hsl(var(--text-primary));
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
+  /* Custom focus styles */
+  .focus-ring {
+    @apply outline-none;
+    box-shadow: 0 0 0 2px hsl(var(--focus-ring));
+  }
 
-.text-hierarchy-secondary {
-  color: hsl(var(--text-secondary));
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.005em;
-}
+  /* Transition utilities */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
 
-.text-hierarchy-tertiary {
-  color: hsl(var(--text-tertiary));
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0;
-}
-
-.text-hierarchy-caption {
-  color: hsl(var(--text-tertiary));
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
-}
-
-/* Apple-Style Focus Ring */
-.focus-ring {
-  @apply outline-none ring-2 ring-accent-blue/60 ring-offset-2 ring-offset-background transition-all duration-200;
-}
-
-/* Apple-Inspired Transitions */
-.transition-smooth {
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.transition-fast {
-  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.transition-spring {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Apple-Style Micro-interactions */
-.hover-lift {
-  @apply transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg;
-}
-
-.hover-scale {
-  @apply transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98];
-}
-
-.button-press {
-  @apply transition-transform duration-100 active:scale-95;
-}
-
-/* Glass Morphism Effects */
-.glass-effect {
-  backdrop-filter: blur(20px);
-  background: hsla(var(--bg-panel) / 0.8);
-  border: 1px solid hsla(var(--border-subtle) / 0.5);
-}
-
-.glass-subtle {
-  backdrop-filter: blur(10px);
-  background: hsla(var(--bg-base) / 0.95);
-}
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
 
   /* Code block styling */
   pre {
@@ -273,7 +211,7 @@
     border-radius: 4px;
   }
 
-  /* Apple-Style Animation System */
+  /* Animation delay utilities */
   .animation-delay-0 {
     animation-delay: 0ms;
   }
@@ -288,45 +226,5 @@
   
   .animation-delay-300 {
     animation-delay: 300ms;
-  }
-
-  /* Staggered Animation System */
-  .stagger-children > * {
-    animation-delay: calc(var(--stagger-delay, 100ms) * var(--index, 0));
-  }
-
-  /* Message Entry Animation */
-  .message-enter {
-    animation: messageSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-
-  @keyframes messageSlideIn {
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Loading Pulse Animation */
-  .loading-pulse {
-    animation: applePulse 2s ease-in-out infinite;
-  }
-
-  @keyframes applePulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-
-  /* Elastic Scale Animation */
-  .elastic-scale {
-    animation: elasticScale 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  @keyframes elasticScale {
-    0% { transform: scale(0.9); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
   }
 }

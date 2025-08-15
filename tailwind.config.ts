@@ -45,7 +45,6 @@ export default {
 				'state-positive': 'hsl(var(--state-positive))',
 				'state-negative': 'hsl(var(--state-negative))',
 				'state-warning': 'hsl(var(--state-warning))',
-				'accent-green': 'hsl(var(--accent-green))',
 
 				// Legacy shadcn compatibility
 				border: 'hsl(var(--border))',
@@ -112,14 +111,6 @@ export default {
 			spacing: {
 				'18': '4.5rem',
 				'88': '22rem',
-				// Apple 8pt grid system
-				'1.5': '0.375rem', // 6px
-				'2.5': '0.625rem', // 10px
-				'3.5': '0.875rem', // 14px
-				'4.5': '1.125rem', // 18px
-				'5.5': '1.375rem', // 22px
-				'6.5': '1.625rem', // 26px
-				'7.5': '1.875rem', // 30px
 			},
 			transitionDuration: {
 				'120': '120ms',
@@ -127,93 +118,21 @@ export default {
 				'160': '160ms'
 			},
 			keyframes: {
-				// Accordion animations
 				'accordion-down': {
-					from: { height: '0', opacity: '0' },
-					to: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
+					from: {
+						height: '0'
+					},
+					to: {
+						height: 'var(--radix-accordion-content-height)'
+					}
 				},
 				'accordion-up': {
-					from: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
-					to: { height: '0', opacity: '0' },
-				},
-				// Apple-style entrance animations
-				'fade-in-up': {
-					'0%': {
-						opacity: '0',
-						transform: 'translateY(20px) scale(0.95)',
+					from: {
+						height: 'var(--radix-accordion-content-height)'
 					},
-					'100%': {
-						opacity: '1',
-						transform: 'translateY(0) scale(1)',
-					},
-				},
-				'fade-in-scale': {
-					'0%': {
-						opacity: '0',
-						transform: 'scale(0.9)',
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'scale(1)',
-					},
-				},
-				// Smooth slide animations
-				'slide-in-right': {
-					'0%': { 
-						transform: 'translateX(100%)',
-						opacity: '0'
-					},
-					'100%': { 
-						transform: 'translateX(0)',
-						opacity: '1'
-					},
-				},
-				'slide-out-right': {
-					'0%': { 
-						transform: 'translateX(0)',
-						opacity: '1'
-					},
-					'100%': { 
-						transform: 'translateX(100%)',
-						opacity: '0'
-					},
-				},
-				// Apple-style pulse
-				'apple-pulse': {
-					'0%, 100%': { 
-						opacity: '0.6',
-						transform: 'scale(1)'
-					},
-					'50%': { 
-						opacity: '1',
-						transform: 'scale(1.02)'
-					},
-				},
-				// Gentle bounce
-				'gentle-bounce': {
-					'0%, 20%, 53%, 80%, 100%': {
-						transform: 'translate3d(0,0,0)',
-					},
-					'40%, 43%': {
-						transform: 'translate3d(0, -8px, 0)',
-					},
-					'70%': {
-						transform: 'translate3d(0, -4px, 0)',
-					},
-					'90%': {
-						transform: 'translate3d(0, -2px, 0)',
-					},
-				},
-				// Typing indicator
-				'typing-dot': {
-					'0%, 60%, 100%': {
-						transform: 'translateY(0)',
-						opacity: '0.4',
-					},
-					'30%': {
-						transform: 'translateY(-10px)',
-						opacity: '1',
-					},
+					to: {
+						height: '0'
+					}
 				},
 				'loading-dot': {
 					'0%, 80%, 100%': {
@@ -225,23 +144,22 @@ export default {
 						opacity: '1'
 					}
 				},
+				'fade-in-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				}
 			},
 			animation: {
-				// Basic animations
-				'accordion-down': 'accordion-down 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-				'accordion-up': 'accordion-up 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-				'fade-in-up': 'fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-				'fade-in-scale': 'fade-in-scale 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-				'slide-in-right': 'slide-in-right 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-				'slide-out-right': 'slide-out-right 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-				'apple-pulse': 'apple-pulse 2s ease-in-out infinite',
-				'gentle-bounce': 'gentle-bounce 1s ease-in-out',
-				'typing-dot': 'typing-dot 1.4s ease-in-out infinite',
+				'accordion-down': 'accordion-down 0.2s ease-out',
+				'accordion-up': 'accordion-up 0.2s ease-out',
 				'loading-dot': 'loading-dot 1.4s ease-in-out infinite',
-				// Staggered animations
-				'fade-in-up-delay-1': 'fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both',
-				'fade-in-up-delay-2': 'fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both',
-				'fade-in-up-delay-3': 'fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both',
+				'fade-in-up': 'fade-in-up 0.3s ease-out'
 			},
 			animationDelay: {
 				'0': '0ms',

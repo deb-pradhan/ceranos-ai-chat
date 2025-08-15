@@ -52,68 +52,55 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
   onExampleClick 
 }) => {
   return (
-    <Card className="mx-4 lg:mx-6 mb-8 bg-gradient-to-br from-bg-panel/90 to-bg-elevated/90 border-border-subtle/50 shadow-xl backdrop-blur-lg animate-fade-in-scale">
-      <CardHeader className="pb-5">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-semibold text-hierarchy-primary tracking-tight">
-            Ask CERANOS about the markets
-          </CardTitle>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onDismiss}
-            className="h-9 w-9 p-0 hover:bg-bg-elevated/60 rounded-xl transition-all duration-200 hover:scale-105"
-          >
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
-        <p className="text-hierarchy-secondary text-base leading-relaxed mt-3">
-          Get instant insights on crypto markets, sentiment analysis, and on-chain metrics. 
-          Try one of these examples to get started:
-        </p>
+    <Card className="mx-4 md:mx-6 mt-4 md:mt-6 mb-4 border-border-subtle bg-bg-panel/80 backdrop-blur-sm shadow-lg">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-5">
+        <CardTitle className="text-lg md:text-xl font-semibold text-text-primary tracking-tight">
+          Ask CERANOS about the markets
+        </CardTitle>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onDismiss}
+          className="h-9 w-9 text-text-secondary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
+        >
+          <X className="h-4 w-4" />
+        </Button>
       </CardHeader>
-      
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <CardContent className="space-y-5">
+        <p className="text-text-secondary text-sm md:text-base leading-relaxed">
+          Get instant insights on crypto markets, sentiment analysis, and on-chain metrics. 
+          Try asking about specific coins, market trends, or risk assessments.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {examples.map((example, index) => {
             const IconComponent = example.icon;
             return (
               <button
                 key={index}
                 onClick={() => onExampleClick(example.text)}
-                className="group text-left p-5 rounded-2xl border border-border-subtle/60 glass-effect hover:shadow-lg hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-blue/30 focus:ring-offset-2 animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="flex items-start gap-3 md:gap-4 p-4 md:p-5 border border-border-subtle bg-bg-elevated hover:bg-bg-base hover:border-accent-blue/30 hover:shadow-md rounded-xl transition-all duration-300 text-left group"
               >
-                <div className="flex items-start space-x-4">
-                  <div className={`w-10 h-10 rounded-xl bg-${example.color}/15 text-${example.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-all duration-300 shadow-md`}>
-                    <IconComponent className="w-5 h-5" />
+                <div className={`p-2 md:p-2.5 bg-${example.color}/15 text-${example.color} group-hover:bg-${example.color}/25 rounded-lg transition-all duration-300 flex-shrink-0 shadow-sm`}>
+                  <IconComponent className="h-4 w-4 md:h-5 md:w-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-semibold text-accent-blue mb-2 tracking-wide uppercase">
+                    {example.category}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-hierarchy-tertiary uppercase tracking-wider mb-2">
-                      {example.category}
-                    </p>
-                    <p className="text-sm text-hierarchy-primary font-medium group-hover:text-accent-blue transition-colors duration-300 leading-relaxed">
-                      {example.text}
-                    </p>
+                  <div className="text-sm md:text-base text-text-primary group-hover:text-accent-blue transition-all duration-300 leading-relaxed">
+                    {example.text}
                   </div>
                 </div>
               </button>
             );
           })}
         </div>
-        
-        <div className="mt-8 p-5 bg-gradient-to-r from-accent-blue/10 to-accent-blue-subtle/10 border border-accent-blue/30 rounded-2xl backdrop-blur-sm">
-          <div className="flex items-start space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-blue to-accent-blue-subtle flex items-center justify-center flex-shrink-0 shadow-md">
-              <div className="w-5 h-5 text-white font-bold">💡</div>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-hierarchy-primary mb-2 tracking-tight">Pro tip</p>
-              <p className="text-sm text-hierarchy-secondary leading-relaxed">
-                Be specific with your questions. Include timeframes, asset classes, or particular markets you're interested in for more targeted analysis.
-              </p>
-            </div>
-          </div>
+
+        <div className="mt-6 pt-5 border-t border-border-subtle">
+          <p className="text-sm text-text-secondary leading-relaxed">
+            💡 <strong className="text-text-primary">Pro tip:</strong> Be specific about timeframes, coins, and metrics for better insights
+          </p>
         </div>
       </CardContent>
     </Card>

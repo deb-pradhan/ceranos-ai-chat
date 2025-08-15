@@ -55,61 +55,56 @@ export const MessageList: React.FC<MessageListProps> = ({
     const isLastAssistantMessage = !isUser && index === messages.length - 1;
 
     return (
-      <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-        <div className={`flex space-x-4 max-w-[85%] lg:max-w-[70%] ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
-          {!isUser && (
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-blue to-accent-blue-subtle flex items-center justify-center flex-shrink-0 shadow-lg hover:scale-105 transition-transform duration-200">
-              <Bot className="w-5 h-5 text-white" />
+      <div
+        key={message.id}
+        className={`px-4 md:px-6 py-5 md:py-6 ${isUser ? 'message-user' : 'message-assistant bg-bg-panel/50 border-l-4 border-l-accent-blue/30'}`}
+      >
+        <div className="flex items-start gap-3 md:gap-4">
+          {/* Avatar */}
+          <div className={`flex-shrink-0 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-lg ${isUser ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/20' : 'bg-bg-elevated text-text-secondary border border-border-subtle'} shadow-sm`}>
+            {isUser ? <User className="w-4 h-4 md:w-4 md:h-4" /> : <Bot className="w-4 h-4 md:w-4 md:h-4" />}
+          </div>
+
+          {/* Message content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-sm font-semibold text-text-primary">
+                {isUser ? 'You' : 'CERANOS'}
+              </span>
+              <span className="text-xs text-text-tertiary font-medium">
+                {formatTimestamp(message.created_at)}
+              </span>
             </div>
-          )}
-          
-          <div className={`group relative transition-all duration-300 hover:scale-[1.01] ${
-            isUser 
-              ? 'bg-gradient-to-br from-accent-blue to-accent-blue-subtle text-white shadow-lg' 
-              : 'glass-effect shadow-lg hover:shadow-xl'
-          } rounded-2xl px-6 py-5`}>
-            <div className={`prose prose-sm max-w-none ${
-              isUser 
-                ? 'prose-invert [&>*]:text-white' 
-                : 'text-hierarchy-primary [&>h1]:text-hierarchy-primary [&>h2]:text-hierarchy-primary [&>h3]:text-hierarchy-primary'
-            }`}>
+
+            <div className="prose prose-sm max-w-none text-text-primary">
               <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed tracking-tight">
                 {message.content}
               </pre>
             </div>
-            
-            <div className="flex items-center justify-between mt-4 pt-3 border-t border-current/10">
-              <span className={`text-xs font-medium ${
-                isUser ? 'text-white/70' : 'text-hierarchy-tertiary'
-              }`}>
-                {formatTimestamp(message.created_at)}
-              </span>
-              
-              <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-x-2 group-hover:translate-x-0">
+
+            {/* Message actions */}
+            <div className="flex items-center gap-2 mt-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => copyToClipboard(message.content)}
+                className="h-8 px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
+              >
+                <Copy className="w-3 h-3 mr-1.5" />
+                Copy
+              </Button>
+
+              {isLastAssistantMessage && !isLoading && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => copyToClipboard(message.content)}
-                  className={`h-8 w-8 p-0 rounded-lg transition-all duration-200 hover:scale-110 ${
-                    isUser 
-                      ? 'hover:bg-white/20 text-white/70 hover:text-white' 
-                      : 'hover:bg-bg-elevated/80 text-text-secondary hover:text-text-primary'
-                  }`}
+                  onClick={onRegenerateResponse}
+                  className="h-8 px-3 text-text-tertiary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-all duration-200"
                 >
-                  <Copy className="w-3.5 h-3.5" />
+                  <RotateCcw className="w-3 h-3 mr-1.5" />
+                  Regenerate
                 </Button>
-                
-                {isLastAssistantMessage && !isLoading && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onRegenerateResponse}
-                    className="h-8 w-8 p-0 rounded-lg hover:bg-bg-elevated/80 text-text-secondary hover:text-text-primary transition-all duration-200 hover:scale-110"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -119,46 +114,34 @@ export const MessageList: React.FC<MessageListProps> = ({
 
   if (messages.length === 0 && !streamingContent && !loadingPhase) {
     return (
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="text-center space-y-6 animate-fade-in-scale max-w-md">
-          <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-accent-blue to-accent-blue-subtle flex items-center justify-center shadow-xl hover:scale-105 transition-transform duration-300">
-            <Bot className="w-10 h-10 text-white" />
-          </div>
-          <div className="space-y-3">
-            <h2 className="text-2xl font-semibold text-hierarchy-primary tracking-tight">
-              Welcome to CERANOS
-            </h2>
-            <p className="text-hierarchy-secondary text-base leading-relaxed">
-              Your AI-powered market analysis assistant. Ask me anything about markets, trading strategies, or financial data.
-            </p>
-          </div>
+      <div className="flex-1 flex items-center justify-center text-text-secondary">
+        <div className="text-center">
+          <Bot className="w-12 h-12 mx-auto mb-4 text-text-secondary/50" />
+          <p className="text-lg font-medium">Ready to analyze the markets</p>
+          <p className="text-sm">Ask me anything about crypto trends, sentiment, or on-chain data</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-thin p-4 lg:p-6">
-      <div className="min-h-full space-y-6">
-        {messages.map((message, index) => (
-          <div 
-            key={message.id} 
-            className="message-enter"
-            style={{ '--index': index } as React.CSSProperties}
-          >
-            {renderMessage(message, index)}
-          </div>
-        ))}
+    <div className="flex-1 overflow-y-auto scrollbar-thin">
+      <div className="min-h-full">
+        {messages.map((message, index) => renderMessage(message, index))}
         
         {/* Loading phase indicator */}
         {loadingPhase && (
-          <div className="animate-fade-in-up">
-            <div className="flex justify-start">
-              <div className="flex space-x-4 max-w-[85%] lg:max-w-[70%]">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-blue to-accent-blue-subtle flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <Bot className="w-5 h-5 text-white" />
+          <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20 animate-fade-in-up">
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
+                <Bot className="w-3 h-3 md:w-4 md:h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-medium text-text-primary">CERANOS</span>
+                  <span className="text-xs text-text-secondary">now</span>
                 </div>
-                <div className="glass-effect rounded-2xl px-6 py-4 shadow-lg">
+                <div className="py-2">
                   <LoadingIndicator phase={loadingPhase} />
                 </div>
               </div>
@@ -168,19 +151,21 @@ export const MessageList: React.FC<MessageListProps> = ({
         
         {/* Streaming message */}
         {streamingContent && (
-          <div className="animate-fade-in-up">
-            <div className="flex justify-start">
-              <div className="flex space-x-4 max-w-[85%] lg:max-w-[70%]">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-blue to-accent-blue-subtle flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <Bot className="w-5 h-5 text-white" />
+          <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-blue/20">
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-bg-base text-text-secondary border border-border-line">
+                <Bot className="w-3 h-3 md:w-4 md:h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-medium text-text-primary">CERANOS</span>
+                  <span className="text-xs text-text-secondary">now</span>
                 </div>
-                <div className="glass-effect rounded-2xl px-6 py-4 shadow-lg">
-                  <div className="prose prose-sm max-w-none text-hierarchy-primary">
-                    <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
-                      {streamingContent}
-                      <span className="inline-block w-0.5 h-5 bg-accent-blue ml-1 animate-apple-pulse rounded-full"></span>
-                    </pre>
-                  </div>
+                <div className="prose prose-sm max-w-none text-text-primary">
+                  <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
+                    {streamingContent}
+                    <span className="inline-block w-2 h-4 bg-accent-blue/50 ml-1 animate-pulse"></span>
+                  </pre>
                 </div>
               </div>
             </div>

@@ -38,43 +38,39 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarOpen }
   };
 
   return (
-    <div className="h-18 border-b border-border-line/50 glass-subtle px-6 lg:px-8 flex items-center justify-between backdrop-blur-xl">
-      <div className="flex items-center space-x-4">
+    <div className={`flex items-center justify-between h-14 ${isMobile ? 'px-4' : 'px-6'} border-b border-border-subtle bg-bg-base/95 backdrop-blur-xl shadow-sm`}>
+      {/* Left Section */}
+      <div className="flex items-center gap-4">
         {/* Mobile hamburger menu */}
         {isMobile && (
           <Button
             variant="ghost"
             size="icon"
             onClick={onToggleSidebar}
-            className="h-11 w-11 rounded-xl hover:bg-bg-panel/60 hover:scale-105 transition-all duration-200 lg:hidden"
+            className="h-9 w-9 text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-4 h-4" />
           </Button>
         )}
         
-        <div className="flex items-center space-x-3">
-          <div className="w-2 h-2 rounded-full bg-accent-green animate-apple-pulse shadow-sm" />
-          <span className="text-sm font-semibold text-hierarchy-primary tracking-tight">
-            {getConnectionText()}
-          </span>
+        {/* Connection status */}
+        <div className="flex items-center gap-2.5">
+          {getConnectionIcon()}
+          {!isMobile && (
+            <span className="text-sm text-text-secondary font-medium">{getConnectionText()}</span>
+          )}
         </div>
       </div>
 
-      <div className="flex items-center space-x-2">
-        {/* Theme toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={toggleTheme}
-          className="h-11 w-11 rounded-xl hover:bg-bg-panel/60 hover:scale-105 transition-all duration-200"
-        >
-          {theme === 'light' ? (
-            <Moon className="w-5 h-5" />
-          ) : (
-            <Sun className="w-5 h-5" />
-          )}
-        </Button>
-      </div>
+      {/* Theme toggle */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleTheme}
+        className="h-9 w-9 text-text-secondary hover:text-text-primary hover:bg-bg-panel rounded-lg transition-all duration-200"
+      >
+        {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      </Button>
     </div>
   );
 };
