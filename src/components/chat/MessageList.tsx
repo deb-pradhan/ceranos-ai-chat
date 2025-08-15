@@ -3,6 +3,7 @@ import { Copy, RotateCcw, User, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { LoadingIndicator } from './LoadingIndicators';
+import { MarkdownContent } from './MarkdownContent';
 
 interface Message {
   id: number;
@@ -76,10 +77,14 @@ export const MessageList: React.FC<MessageListProps> = ({
               </span>
             </div>
 
-            <div className="prose prose-sm max-w-none text-text-primary">
-              <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed break-words">
-                {message.content}
-              </pre>
+            <div className="max-w-none">
+              {isUser ? (
+                <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed break-words text-text-primary">
+                  {message.content}
+                </pre>
+              ) : (
+                <MarkdownContent content={message.content} />
+              )}
             </div>
 
             {/* Message actions */}
@@ -161,11 +166,12 @@ export const MessageList: React.FC<MessageListProps> = ({
                   <span className="text-sm font-bold text-text-primary">CERANOS</span>
                   <span className="text-xs text-text-secondary font-medium">now</span>
                 </div>
-                <div className="prose prose-sm max-w-none text-text-primary">
-                  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed break-words">
-                    {streamingContent}
-                    <span className="inline-block w-1.5 h-3 bg-accent-blue/50 ml-1 animate-pulse"></span>
-                  </pre>
+                <div className="max-w-none">
+                  <MarkdownContent 
+                    content={streamingContent + '\u200B'} 
+                    className="relative"
+                  />
+                  <span className="inline-block w-1.5 h-3 bg-accent-blue/50 ml-1 animate-pulse"></span>
                 </div>
               </div>
             </div>
