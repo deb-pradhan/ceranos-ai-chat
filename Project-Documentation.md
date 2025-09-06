@@ -32,6 +32,79 @@ CERANOS is a modern AI-powered chat application built with React and Supabase. I
 - ⚡ Real-time message streaming
 - 🔄 Message regeneration functionality
 
+## User Flow
+
+### Complete User Journey
+
+<lov-mermaid>
+flowchart TD
+    A[User Visits App] --> B{First Time User?}
+    B -->|Yes| C[View Welcome Interface]
+    B -->|No| D[Load Previous Session]
+    
+    C --> E[Browse Without Account]
+    D --> F[Restore Chat History]
+    
+    E --> G{Want to Chat?}
+    F --> G
+    
+    G -->|Yes| H{Authenticated?}
+    G -->|No| I[Continue Browsing]
+    
+    H -->|No| J[Show Login Popup]
+    H -->|Yes| K[Access Chat Interface]
+    
+    J --> L[Choose Auth Method]
+    L --> M[Complete Authentication]
+    M --> K
+    
+    K --> N[Select Existing Chat or Create New]
+    N --> O[Compose Message]
+    O --> P[Send Message]
+    
+    P --> Q[AI Processing with Loading States]
+    Q --> R[Stream Response]
+    R --> S[Display Complete Response]
+    
+    S --> T{User Action?}
+    T -->|New Message| O
+    T -->|Regenerate| U[Regenerate Last Response]
+    T -->|New Chat| V[Create New Chat]
+    T -->|Manage History| W[Rename/Delete Chats]
+    T -->|Sign Out| X[End Session]
+    
+    U --> Q
+    V --> N
+    W --> N
+    X --> A
+    
+    I --> Y[View Documentation/Features]
+    Y --> G
+</lov-mermaid>
+
+### Authentication Flow Detail
+
+<lov-mermaid>
+flowchart LR
+    A[User Attempts Action] --> B{Requires Auth?}
+    B -->|No| C[Allow Action]
+    B -->|Yes| D{User Signed In?}
+    
+    D -->|Yes| E[Verify Session]
+    D -->|No| F[Show Login Modal]
+    
+    E --> G{Valid Session?}
+    G -->|Yes| C
+    G -->|No| F
+    
+    F --> H[Select Provider]
+    H --> I[OAuth Redirect]
+    I --> J[Supabase Auth]
+    J --> K[Create/Update Profile]
+    K --> L[Return to App]
+    L --> C
+</lov-mermaid>
+
 ## Tech Stack
 
 ### Frontend Framework
@@ -70,15 +143,65 @@ CERANOS is a modern AI-powered chat application built with React and Supabase. I
 
 The application follows a modern React architecture with clear separation of concerns:
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   React Client  │    │   Supabase      │    │   Edge Function │
-│                 │    │   Database      │    │   (AI Chat)     │
-│ - Components    │◄───┤ - Auth          │◄───┤ - OpenAI API    │
-│ - Hooks        │    │ - Real-time     │    │ - Streaming     │
-│ - Context      │    │ - Storage       │    │ - Processing    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+<lov-mermaid>
+graph TB
+    subgraph "Frontend Layer"
+        A[React Client]
+        B[Components]
+        C[Hooks & Context]
+        D[UI State]
+    end
+    
+    subgraph "Backend Layer"
+        E[Supabase]
+        F[PostgreSQL Database]
+        G[Authentication]
+        H[Real-time Subscriptions]
+    end
+    
+    subgraph "AI Layer"
+        I[Edge Function]
+        J[OpenAI API]
+        K[Streaming Response]
+    end
+    
+    A --> B
+    A --> C
+    C --> D
+    
+    B --> E
+    C --> G
+    D --> H
+    
+    E --> F
+    E --> I
+    I --> J
+    I --> K
+    
+    K --> A
+</lov-mermaid>
+
+### Data Flow Architecture
+
+<lov-mermaid>
+sequenceDiagram
+    participant U as User
+    participant RC as React Client
+    participant SB as Supabase
+    participant EF as Edge Function
+    participant AI as OpenAI API
+    
+    U->>RC: Send Message
+    RC->>SB: Authenticate User
+    SB-->>RC: Auth Token
+    RC->>SB: Save User Message
+    RC->>EF: Send to AI Webhook
+    EF->>AI: Process Message
+    AI-->>EF: Stream Response
+    EF-->>RC: Server-Sent Events
+    RC->>SB: Save AI Response
+    RC->>U: Display Messages
+</lov-mermaid>
 
 ### Component Architecture
 - **Container Components** - Handle data fetching and state management
@@ -87,6 +210,67 @@ The application follows a modern React architecture with clear separation of con
 - **Context Providers** - Global state management
 
 ## Project Structure
+
+### Component Architecture Overview
+
+<lov-mermaid>
+graph TD
+    subgraph "Application Layer"
+        A[App.tsx]
+        B[Index.tsx]
+        C[NotFound.tsx]
+    end
+    
+    subgraph "Context Layer"
+        D[AuthContext]
+        E[QueryClient]
+        F[TooltipProvider]
+    end
+    
+    subgraph "Layout Components"
+        G[AppSidebar]
+        H[ChatInterface]
+        I[TopBar]
+    end
+    
+    subgraph "Feature Components"
+        J[MessageList]
+        K[ChatInput]
+        L[InstructionCard]
+        M[LoadingIndicators]
+    end
+    
+    subgraph "Auth Components"
+        N[AuthGuard]
+        O[LoginPopup]
+        P[LoginScreen]
+    end
+    
+    subgraph "UI Layer"
+        Q[shadcn/ui Components]
+        R[Custom Hooks]
+        S[Utilities]
+    end
+    
+    A --> D
+    A --> E
+    A --> F
+    B --> G
+    B --> H
+    H --> I
+    H --> J
+    H --> K
+    H --> L
+    G --> N
+    N --> O
+    N --> P
+    J --> Q
+    K --> Q
+    All --> R
+    All --> S
+</lov-mermaid>
+
+### File System Structure
 
 ```
 src/
@@ -129,6 +313,45 @@ src/
 ├── main.tsx           # App entry point
 └── index.css          # Global styles
 ```
+
+### Backend Structure & Database Relationships
+
+<lov-mermaid>
+erDiagram
+    PROFILES {
+        uuid id PK
+        text email
+        timestamp created_at
+    }
+    
+    CHATS {
+        uuid id PK
+        uuid user_id FK
+        text title
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    MESSAGES {
+        bigint id PK
+        uuid chat_id FK
+        uuid user_id FK
+        text role
+        text content
+        timestamp created_at
+    }
+    
+    AUTH_USERS {
+        uuid id PK
+        text email
+        timestamp created_at
+    }
+    
+    AUTH_USERS ||--|| PROFILES : "has profile"
+    AUTH_USERS ||--o{ CHATS : "creates chats"
+    AUTH_USERS ||--o{ MESSAGES : "sends messages"
+    CHATS ||--o{ MESSAGES : "contains messages"
+</lov-mermaid>
 
 ### Supabase Structure
 ```
