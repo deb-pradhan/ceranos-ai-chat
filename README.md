@@ -1,8 +1,15 @@
-# Welcome to your Lovable project
+# CERANOS AI Chat
+
+**An intelligent AI-powered chat application built with React and Supabase**
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/95309617-10d3-4b13-8d40-6e8afc6e1bae
+
+## 📚 Documentation
+
+For comprehensive technical documentation including architecture, API reference, and development guides, see:
+**[Project Documentation](./Project-Documentation.md)**
 
 ## How can I edit this code?
 
