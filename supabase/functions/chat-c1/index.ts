@@ -40,7 +40,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'c1',
+        model: 'c1-latest',
         messages: messages,
         stream: true,
       }),
