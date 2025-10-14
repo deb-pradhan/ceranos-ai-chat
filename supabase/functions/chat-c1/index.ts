@@ -30,10 +30,10 @@ serve(async (req) => {
     }
 
     console.log('Calling Thesys C1 API with', messages.length, 'messages');
-    console.log('API URL: https://api.thesys.dev/v1/chat/completions');
+    console.log('API URL: https://api.thesys.dev/v1/embed/chat/completions');
 
-    // Call Thesys C1 API with streaming enabled (fixed endpoint with /v1/)
-    const response = await fetch('https://api.thesys.dev/v1/chat/completions', {
+    // Call Thesys C1 API with streaming enabled (correct endpoint with /v1/embed/)
+    const response = await fetch('https://api.thesys.dev/v1/embed/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${THESYS_API_KEY}`,
