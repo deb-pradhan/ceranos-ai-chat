@@ -53,6 +53,7 @@ export type Database = {
           created_at: string
           id: number
           role: string
+          ui_spec: Json | null
           user_id: string
         }
         Insert: {
@@ -61,6 +62,7 @@ export type Database = {
           created_at?: string
           id?: never
           role: string
+          ui_spec?: Json | null
           user_id: string
         }
         Update: {
@@ -69,6 +71,7 @@ export type Database = {
           created_at?: string
           id?: never
           role?: string
+          ui_spec?: Json | null
           user_id?: string
         }
         Relationships: [
