@@ -173,11 +173,32 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
     } catch (error) {
       console.error('Error sending message:', error);
+      
+      // Provide more specific error messages to users
+      let errorDescription = "Failed to send message. Please try again.";
+      
+      if (error instanceof Error) {
+        const errorMsg = error.message.toLowerCase();
+        if (errorMsg.includes('api key') || errorMsg.includes('401')) {
+          errorDescription = "API authentication failed. Please contact support.";
+        } else if (errorMsg.includes('rate limit') || errorMsg.includes('429')) {
+          errorDescription = "Too many requests. Please wait a moment and try again.";
+        } else if (errorMsg.includes('server error') || errorMsg.includes('500')) {
+          errorDescription = "Service temporarily unavailable. Please try again in a moment.";
+        } else if (errorMsg.includes('network') || errorMsg.includes('fetch')) {
+          errorDescription = "Network error. Please check your connection and try again.";
+        } else if (error.message && error.message.length < 100) {
+          errorDescription = error.message;
+        }
+      }
+      
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
+        description: errorDescription,
         variant: "destructive"
       });
+      
+      setStreamingContent('');
     } finally {
       setIsLoading(false);
       setLoadingPhase(null);

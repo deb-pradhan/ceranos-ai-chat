@@ -24,10 +24,16 @@ serve(async (req) => {
       throw new Error('THESYS_API_KEY is not configured');
     }
 
-    console.log('Calling Thesys C1 API with', messages.length, 'messages');
+    // Validate messages array
+    if (messages.length === 0) {
+      throw new Error('Messages array cannot be empty');
+    }
 
-    // Call Thesys C1 API with streaming enabled
-    const response = await fetch('https://api.thesys.dev/chat/completions', {
+    console.log('Calling Thesys C1 API with', messages.length, 'messages');
+    console.log('API URL: https://api.thesys.dev/v1/chat/completions');
+
+    // Call Thesys C1 API with streaming enabled (fixed endpoint with /v1/)
+    const response = await fetch('https://api.thesys.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${THESYS_API_KEY}`,
@@ -43,7 +49,20 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Thesys API error:', response.status, errorText);
-      throw new Error(`Thesys API returned ${response.status}: ${errorText}`);
+      
+      // Provide specific error messages based on status code
+      let errorMessage = 'API request failed';
+      if (response.status === 401) {
+        errorMessage = 'Invalid API key. Please check your THESYS_API_KEY configuration.';
+      } else if (response.status === 429) {
+        errorMessage = 'Rate limit exceeded. Please try again later.';
+      } else if (response.status === 500) {
+        errorMessage = 'Thesys API server error. Please try again later.';
+      } else {
+        errorMessage = `Thesys API returned ${response.status}: ${errorText}`;
+      }
+      
+      throw new Error(errorMessage);
     }
 
     // Return the SSE stream directly to the client
