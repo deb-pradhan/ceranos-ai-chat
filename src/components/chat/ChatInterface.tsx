@@ -72,24 +72,30 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   };
 
-  const getAssistantResponse = async (userMessage: string): Promise<string> => {
+  const streamAssistantResponse = async (
+    conversationMessages: Array<{ role: string; content: string }>,
+    onChunk: (text: string) => void
+  ): Promise<{ text: string; uiSpec?: any }> => {
     try {
-      const { data, error } = await supabase.functions.invoke('chat-webhook', {
-        body: { message: userMessage }
+      const { streamC1Response } = await import('@/utils/streamingUtils');
+      
+      let fullText = '';
+      let uiSpec: any = null;
+
+      await streamC1Response(conversationMessages, (chunk) => {
+        if (chunk.type === 'text' && chunk.content) {
+          fullText += chunk.content;
+          onChunk(chunk.content);
+        } else if (chunk.type === 'ui' && chunk.uiSpec) {
+          uiSpec = chunk.uiSpec;
+        } else if (chunk.type === 'error') {
+          throw new Error(chunk.error || 'Stream error');
+        }
       });
 
-      if (error) {
-        console.error('Edge function error:', error);
-        throw new Error('Failed to get AI response');
-      }
-
-      if (!data.success) {
-        throw new Error(data.error || 'Webhook request failed');
-      }
-
-      return data.response;
+      return { text: fullText, uiSpec };
     } catch (error) {
-      console.error('Error calling webhook:', error);
+      console.error('Error streaming response:', error);
       throw error;
     }
   };
@@ -131,29 +137,37 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       const userMessage = await addMessage(currentChatId, 'user', content);
       setMessages(prev => [...prev, userMessage]);
 
-      // Start loading phases while waiting for webhook
-      setLoadingPhase('thinking');
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setLoadingPhase('analyzing');
+      // Build conversation history with system prompt
+      const conversationMessages = [
+        { 
+          role: 'system', 
+          content: 'You are a helpful AI assistant. Provide clear, concise, and accurate responses.' 
+        },
+        ...messages.map(msg => ({
+          role: msg.role,
+          content: msg.content
+        })),
+        { role: 'user', content }
+      ];
 
-      // Get real AI response from webhook
-      const assistantResponse = await getAssistantResponse(content);
-      
-      // Switch to typing phase when we have the response
-      setLoadingPhase('typing');
+      // Start streaming response
+      setLoadingPhase('thinking');
       setStreamingContent('');
       
-      // Simulate typing effect with faster animation
-      for (let i = 0; i <= assistantResponse.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 8)); // Faster typing (was 20ms)
-        setStreamingContent(assistantResponse.substring(0, i));
-      }
+      let streamedText = '';
+      const { text: fullText, uiSpec } = await streamAssistantResponse(
+        conversationMessages,
+        (chunk) => {
+          streamedText += chunk;
+          setStreamingContent(streamedText);
+          setLoadingPhase('typing');
+        }
+      );
 
       setLoadingPhase(null);
 
-      // Add complete assistant message
-      const assistantMessage = await addMessage(currentChatId, 'assistant', assistantResponse);
+      // Add complete assistant message with UI spec if available
+      const assistantMessage = await addMessage(currentChatId, 'assistant', fullText);
       setMessages(prev => [...prev, assistantMessage]);
       setStreamingContent('');
 
