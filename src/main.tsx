@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import "@crayonai/react-ui/styles/index.css";
 import './index.css'
 
 console.log('[Main] Starting application initialization');
