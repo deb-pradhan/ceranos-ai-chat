@@ -16,6 +16,7 @@ interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
+  ui_spec?: any;
 }
 
 export const useChatHistory = () => {
@@ -158,7 +159,7 @@ export const useChatHistory = () => {
     }
   };
 
-  const addMessage = async (chatId: string, role: 'user' | 'assistant' | 'system', content: string): Promise<Message> => {
+  const addMessage = async (chatId: string, role: 'user' | 'assistant' | 'system', content: string, uiSpec?: any): Promise<Message> => {
     if (!user) throw new Error('User not authenticated');
 
     console.log('Adding message to chat:', chatId, role);
@@ -169,7 +170,8 @@ export const useChatHistory = () => {
         chat_id: chatId,
         user_id: user.id,
         role,
-        content: content.trim()
+        content: content.trim(),
+        ui_spec: uiSpec
       })
       .select()
       .single();

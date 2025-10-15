@@ -14,6 +14,7 @@ interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
+  ui_spec?: any;
 }
 
 interface ChatInterfaceProps {
@@ -34,6 +35,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
   const [streamingContent, setStreamingContent] = useState('');
+  const [streamingUISpec, setStreamingUISpec] = useState<any>(null);
   const [loadingPhase, setLoadingPhase] = useState<'thinking' | 'searching' | 'analyzing' | 'typing' | null>(null);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
@@ -88,6 +90,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           onChunk(chunk.content);
         } else if (chunk.type === 'ui' && chunk.uiSpec) {
           uiSpec = chunk.uiSpec;
+          setStreamingUISpec(chunk.uiSpec);
         } else if (chunk.type === 'error') {
           throw new Error(chunk.error || 'Stream error');
         }
@@ -167,9 +170,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       setLoadingPhase(null);
 
       // Add complete assistant message with UI spec if available
-      const assistantMessage = await addMessage(currentChatId, 'assistant', fullText);
+      const assistantMessage = await addMessage(currentChatId, 'assistant', fullText, uiSpec);
       setMessages(prev => [...prev, assistantMessage]);
       setStreamingContent('');
+      setStreamingUISpec(null);
 
     } catch (error) {
       console.error('Error sending message:', error);
@@ -242,6 +246,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         <MessageList 
           messages={messages}
           streamingContent={streamingContent}
+          streamingUISpec={streamingUISpec}
           onRegenerateResponse={handleRegenerateResponse}
           isLoading={isLoading}
           loadingPhase={loadingPhase}

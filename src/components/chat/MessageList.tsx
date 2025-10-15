@@ -3,17 +3,20 @@ import { Copy, RotateCcw, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { LoadingIndicator } from './LoadingIndicators';
+import { UIRenderer } from './UIRenderer';
 
 interface Message {
   id: number;
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
+  ui_spec?: any;
 }
 
 interface MessageListProps {
   messages: Message[];
   streamingContent: string;
+  streamingUISpec: any;
   onRegenerateResponse: () => void;
   isLoading: boolean;
   loadingPhase: 'thinking' | 'searching' | 'analyzing' | 'typing' | null;
@@ -22,6 +25,7 @@ interface MessageListProps {
 export const MessageList: React.FC<MessageListProps> = ({
   messages,
   streamingContent,
+  streamingUISpec,
   onRegenerateResponse,
   isLoading,
   loadingPhase
@@ -80,6 +84,7 @@ export const MessageList: React.FC<MessageListProps> = ({
               <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
                 {message.content}
               </pre>
+              {message.ui_spec && <UIRenderer uiSpec={message.ui_spec} />}
             </div>
 
             {/* Message actions */}
@@ -166,6 +171,7 @@ export const MessageList: React.FC<MessageListProps> = ({
                     {streamingContent}
                     <span className="inline-block w-2 h-4 bg-accent-blue/50 ml-1 animate-pulse"></span>
                   </pre>
+                  {streamingUISpec && <UIRenderer uiSpec={streamingUISpec} isStreaming={true} />}
                 </div>
               </div>
             </div>
