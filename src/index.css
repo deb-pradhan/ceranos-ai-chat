@@ -4,7 +4,10 @@
 
 /* CERANOS Design System - Ultra-modern, premium, zero-radius */
 
-@layer base {
+/* CSS Layers: Crayon UI styles won't override CERANOS design system */
+@layer c1-ui, ceranos-base, ceranos-components;
+
+@layer ceranos-base {
   :root {
     /* CERANOS Color System - Light Theme */
     --bg-base: 0 0% 100%;
@@ -101,7 +104,7 @@
   }
 }
 
-@layer base {
+@layer ceranos-components {
   * {
     @apply border-border;
     border-radius: 0px !important; /* Zero radius globally */

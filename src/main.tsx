@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import './index.css'
+import '@crayonai/react-ui/styles/index.css' // Crayon UI styles for C1 components
+import './index.css' // CERANOS design system (overrides Crayon UI)
 
 console.log('[Main] Starting application initialization');
 console.log('[Main] Environment mode:', import.meta.env.MODE);
