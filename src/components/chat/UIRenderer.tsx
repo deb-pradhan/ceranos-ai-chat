@@ -38,7 +38,7 @@ export const UIRenderer: React.FC<UIRendererProps> = ({ uiSpec, isStreaming = fa
     console.error('[UIRenderer] Failed uiSpec:', uiSpec);
     
     return (
-      <div className="my-4 p-4 border border-red-500 rounded bg-red-50">
+      <div className="my-4 p-4 border border-red-500 bg-red-50">
         <p className="text-red-700 font-semibold mb-2">⚠️ UI Rendering Error</p>
         <pre className="text-xs text-red-600 overflow-auto max-h-40">
           {error instanceof Error ? error.message : String(error)}
