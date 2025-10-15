@@ -16,7 +16,6 @@ interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
-  ui_spec?: any;
 }
 
 export const useChatHistory = () => {
@@ -159,10 +158,15 @@ export const useChatHistory = () => {
     }
   };
 
-  const addMessage = async (chatId: string, role: 'user' | 'assistant' | 'system', content: string, uiSpec?: any): Promise<Message> => {
+  const addMessage = async (chatId: string, role: 'user' | 'assistant' | 'system', content: string): Promise<Message> => {
     if (!user) throw new Error('User not authenticated');
 
-    console.log('Adding message to chat:', chatId, role);
+    console.log('[useChatHistory] Adding message:', { 
+      chatId, 
+      role, 
+      contentLength: content.length,
+      contentPreview: content.substring(0, 50)
+    });
 
     const { data, error } = await supabase
       .from('messages')
@@ -170,19 +174,18 @@ export const useChatHistory = () => {
         chat_id: chatId,
         user_id: user.id,
         role,
-        content: content.trim(),
-        ui_spec: uiSpec
+        content: content.trim()
       })
       .select()
       .single();
 
     if (error) {
-      console.error('Error adding message:', error);
+      console.error('[useChatHistory] Insert error:', error);
       throw error;
     }
 
-      console.log('Added message:', data.id);
-      return data as Message;
+    console.log('[useChatHistory] Message saved:', data.id);
+    return data as Message;
   };
 
   const loadChatMessages = async (chatId: string): Promise<Message[]> => {

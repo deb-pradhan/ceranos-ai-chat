@@ -10,22 +10,19 @@ interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
-  ui_spec?: any;
 }
 
 interface MessageListProps {
   messages: Message[];
   streamingContent: string;
-  streamingUISpec: any;
   onRegenerateResponse: () => void;
   isLoading: boolean;
   loadingPhase: 'thinking' | 'searching' | 'analyzing' | 'typing' | null;
 }
 
-export const MessageList: React.FC<MessageListProps> = ({
-  messages,
+export const MessageList: React.FC<MessageListProps> = ({ 
+  messages, 
   streamingContent,
-  streamingUISpec,
   onRegenerateResponse,
   isLoading,
   loadingPhase
@@ -80,12 +77,18 @@ export const MessageList: React.FC<MessageListProps> = ({
               </span>
             </div>
 
-            <div className="prose prose-sm max-w-none text-text-primary">
-              <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
-                {message.content}
-              </pre>
-              {message.ui_spec && <UIRenderer uiSpec={message.ui_spec} />}
-            </div>
+            {/* Different rendering for user vs assistant messages */}
+            {message.role === 'assistant' ? (
+              // For assistant: Use UIRenderer which handles both text and UI specs
+              <UIRenderer uiSpec={message.content} isStreaming={false} />
+            ) : (
+              // For user: Show as plain text
+              <div className="prose prose-sm max-w-none text-text-primary">
+                <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
+                  {message.content}
+                </pre>
+              </div>
+            )}
 
             {/* Message actions */}
             <div className="flex items-center gap-2 mt-3">
@@ -166,13 +169,8 @@ export const MessageList: React.FC<MessageListProps> = ({
                   <span className="text-sm font-medium text-text-primary">CERANOS</span>
                   <span className="text-xs text-text-secondary">now</span>
                 </div>
-                <div className="prose prose-sm max-w-none text-text-primary">
-                  <pre className="whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed">
-                    {streamingContent}
-                    <span className="inline-block w-2 h-4 bg-accent-blue/50 ml-1 animate-pulse"></span>
-                  </pre>
-                  {streamingUISpec && <UIRenderer uiSpec={streamingUISpec} isStreaming={true} />}
-                </div>
+                {/* Use UIRenderer for streaming content - it handles both text and UI specs */}
+                <UIRenderer uiSpec={streamingContent} isStreaming={true} />
               </div>
             </div>
           </div>

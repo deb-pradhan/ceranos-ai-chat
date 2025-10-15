@@ -70,42 +70,47 @@ function parseSSEChunk(line: string): StreamChunk | null {
     
     // Check for stream end marker
     if (jsonStr === '[DONE]') {
+      console.log('[SSE Parse] Stream completed with [DONE] marker');
       return { type: 'done' };
     }
 
     try {
       const data = JSON.parse(jsonStr);
       
+      // Log what we received for debugging
+      if (data.choices && data.choices[0]) {
+        const choice = data.choices[0];
+        console.log('[SSE Parse] Received chunk:', {
+          hasDelta: !!choice.delta,
+          hasContent: !!choice.delta?.content,
+          contentLength: choice.delta?.content?.length || 0,
+          contentPreview: choice.delta?.content?.substring(0, 50)
+        });
+      }
+      
       // Handle different response types from Thesys C1
       if (data.choices && data.choices[0]) {
         const choice = data.choices[0];
         
-        // Text delta
+        // Text delta - this is what contains the UI spec as stringified JSON
         if (choice.delta?.content) {
           return {
             type: 'text',
             content: choice.delta.content
           };
         }
-        
-        // UI specification
-        if (choice.delta?.ui_spec) {
-          return {
-            type: 'ui',
-            uiSpec: choice.delta.ui_spec
-          };
-        }
       }
       
       // Handle error responses
       if (data.error) {
+        console.error('[SSE Parse] API error:', data.error);
         return {
           type: 'error',
           error: data.error.message || 'Unknown API error'
         };
       }
     } catch (error) {
-      console.error('Failed to parse SSE JSON:', jsonStr, error);
+      console.error('[SSE Parse] JSON parse failed for:', jsonStr.substring(0, 100), error);
       return null;
     }
   }

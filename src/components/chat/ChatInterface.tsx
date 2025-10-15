@@ -14,7 +14,6 @@ interface Message {
   role: 'user' | 'assistant' | 'system';
   content: string;
   created_at: string;
-  ui_spec?: any;
 }
 
 interface ChatInterfaceProps {
@@ -35,7 +34,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
   const [streamingContent, setStreamingContent] = useState('');
-  const [streamingUISpec, setStreamingUISpec] = useState<any>(null);
   const [loadingPhase, setLoadingPhase] = useState<'thinking' | 'searching' | 'analyzing' | 'typing' | null>(null);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
@@ -77,28 +75,36 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const streamAssistantResponse = async (
     conversationMessages: Array<{ role: string; content: string }>,
     onChunk: (text: string) => void
-  ): Promise<{ text: string; uiSpec?: any }> => {
+  ): Promise<{ text: string }> => {
     try {
+      console.log('[ChatInterface] Starting stream with', conversationMessages.length, 'messages');
+      
       const { streamC1Response } = await import('@/utils/streamingUtils');
       
       let fullText = '';
-      let uiSpec: any = null;
 
       await streamC1Response(conversationMessages, (chunk) => {
         if (chunk.type === 'text' && chunk.content) {
           fullText += chunk.content;
           onChunk(chunk.content);
-        } else if (chunk.type === 'ui' && chunk.uiSpec) {
-          uiSpec = chunk.uiSpec;
-          setStreamingUISpec(chunk.uiSpec);
+          
+          // Log periodically (every 100 chars) to avoid console spam
+          if (fullText.length % 100 < chunk.content.length) {
+            console.log('[ChatInterface] Accumulated', fullText.length, 'chars');
+          }
         } else if (chunk.type === 'error') {
+          console.error('[ChatInterface] Stream error:', chunk.error);
           throw new Error(chunk.error || 'Stream error');
         }
       });
 
-      return { text: fullText, uiSpec };
+      console.log('[ChatInterface] Stream complete. Total length:', fullText.length);
+      console.log('[ChatInterface] Content preview:', fullText.substring(0, 200));
+      console.log('[ChatInterface] Looks like JSON?:', fullText.trim().startsWith('{') || fullText.trim().startsWith('['));
+
+      return { text: fullText };
     } catch (error) {
-      console.error('Error streaming response:', error);
+      console.error('[ChatInterface] Stream error:', error);
       throw error;
     }
   };
@@ -158,7 +164,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       setStreamingContent('');
       
       let streamedText = '';
-      const { text: fullText, uiSpec } = await streamAssistantResponse(
+      const { text: fullText } = await streamAssistantResponse(
         conversationMessages,
         (chunk) => {
           streamedText += chunk;
@@ -169,11 +175,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       setLoadingPhase(null);
 
-      // Add complete assistant message with UI spec if available
-      const assistantMessage = await addMessage(currentChatId, 'assistant', fullText, uiSpec);
+      // Add complete assistant message
+      console.log('[ChatInterface] Saving assistant message...');
+      const assistantMessage = await addMessage(currentChatId, 'assistant', fullText);
+      console.log('[ChatInterface] Saved message:', assistantMessage.id);
       setMessages(prev => [...prev, assistantMessage]);
       setStreamingContent('');
-      setStreamingUISpec(null);
 
     } catch (error) {
       console.error('Error sending message:', error);
@@ -246,7 +253,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         <MessageList 
           messages={messages}
           streamingContent={streamingContent}
-          streamingUISpec={streamingUISpec}
           onRegenerateResponse={handleRegenerateResponse}
           isLoading={isLoading}
           loadingPhase={loadingPhase}
