@@ -3,7 +3,6 @@ import { Copy, RotateCcw, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { LoadingIndicator } from './LoadingIndicators';
-import { UIRenderer } from './UIRenderer';
 
 interface Message {
   id: number;
@@ -79,8 +78,12 @@ export const MessageList: React.FC<MessageListProps> = ({
 
             {/* Different rendering for user vs assistant messages */}
             {message.role === 'assistant' ? (
-              // For assistant: Use UIRenderer which handles both text and UI specs
-              <UIRenderer uiSpec={message.content} isStreaming={false} />
+              // For assistant: Show formatted text
+              <div className="prose prose-sm max-w-none text-text-primary">
+                <div className="whitespace-pre-wrap text-sm md:text-base leading-relaxed">
+                  {message.content}
+                </div>
+              </div>
             ) : (
               // For user: Show as plain text
               <div className="prose prose-sm max-w-none text-text-primary">
@@ -169,8 +172,12 @@ export const MessageList: React.FC<MessageListProps> = ({
                   <span className="text-sm font-medium text-text-primary">CERANOS</span>
                   <span className="text-xs text-text-secondary">now</span>
                 </div>
-                {/* Use UIRenderer for streaming content - it handles both text and UI specs */}
-                <UIRenderer uiSpec={streamingContent} isStreaming={true} />
+                {/* Streaming content displayed as text */}
+                <div className="prose prose-sm max-w-none text-text-primary">
+                  <div className="whitespace-pre-wrap text-sm md:text-base leading-relaxed">
+                    {streamingContent}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
