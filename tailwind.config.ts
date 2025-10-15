@@ -28,6 +28,7 @@ export default {
 				'bg-panel': 'hsl(var(--bg-panel))',
 				'text-primary': 'hsl(var(--text-primary))',
 				'text-secondary': 'hsl(var(--text-secondary))',
+				'text-tertiary': 'hsl(var(--text-tertiary))',
 				'border-line': 'hsl(var(--border-line))',
 				'accent-blue': 'hsl(var(--accent-blue))',
 				'focus-ring': 'hsl(var(--focus-ring))',

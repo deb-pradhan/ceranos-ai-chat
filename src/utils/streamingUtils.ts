@@ -127,11 +127,14 @@ export async function streamC1Response(
 ): Promise<void> {
   const CHAT_URL = `https://egqbvpsasbmxcmwzxizv.supabase.co/functions/v1/chat-c1`;
   
+  // Use the Supabase anon key directly (it's a public key, safe to include in client code)
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVncWJ2cHNhc2JteGNtd3p4aXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxOTY3OTYsImV4cCI6MjA3MDc3Mjc5Nn0.Lz0rHRgQX1nSJofvjQ_gjYhF8c8XgbVrg2GO7zvu2s8';
+  
   const response = await fetch(CHAT_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
     },
     body: JSON.stringify({ messages }),
   });

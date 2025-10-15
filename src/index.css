@@ -11,6 +11,7 @@
     --bg-panel: 220 14% 96%;
     --text-primary: 218 11% 6%;
     --text-secondary: 215 14% 42%;
+    --text-tertiary: 215 16% 60%;
     --border-line: 214 32% 92%;
     --accent-blue: 217 91% 60%;
     --focus-ring: 217 91% 60%;
@@ -60,6 +61,7 @@
     --bg-panel: 218 27% 8%;
     --text-primary: 213 31% 91%;
     --text-secondary: 215 20% 65%;
+    --text-tertiary: 215 20% 50%;
     --border-line: 215 28% 17%;
     --accent-blue: 213 94% 68%;
     --focus-ring: 213 94% 68%;
