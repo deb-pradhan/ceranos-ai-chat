@@ -19,7 +19,7 @@ const examples = [
     icon: PieChart,
     category: "Distribution", 
     text: "Top holders & 30d changes for HYPE.",
-    color: "accent-blue"
+    color: "accent-orange"
   },
   {
     icon: Activity,
@@ -31,7 +31,7 @@ const examples = [
     icon: Clock,
     category: "Outlooks",
     text: "Short / few days / few weeks / few months view for BTC, ALTs, GOLD, SPX.",
-    color: "accent-blue"
+    color: "accent-orange"
   },
   {
     icon: Shield,
@@ -85,10 +85,10 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
                   <IconComponent className="h-3 w-3 md:h-4 md:w-4" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-medium text-accent-blue mb-1">
+                  <div className="text-xs font-medium text-accent-orange mb-1">
                     {example.category}
                   </div>
-                  <div className="text-xs md:text-sm text-text-primary group-hover:text-accent-blue transition-smooth line-clamp-2">
+                  <div className="text-xs md:text-sm text-text-primary group-hover:text-accent-orange transition-smooth line-clamp-2">
                     {example.text}
                   </div>
                 </div>

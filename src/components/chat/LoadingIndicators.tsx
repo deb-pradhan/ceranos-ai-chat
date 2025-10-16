@@ -43,9 +43,9 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ phase }) => 
       <Icon className={`w-4 h-4 ${config.animation}`} />
       <span className="text-sm">{config.text}</span>
       <div className="flex gap-1">
-        <div className="w-1 h-1 bg-accent-blue rounded-full animate-loading-dot animation-delay-0"></div>
-        <div className="w-1 h-1 bg-accent-blue rounded-full animate-loading-dot animation-delay-100"></div>
-        <div className="w-1 h-1 bg-accent-blue rounded-full animate-loading-dot animation-delay-200"></div>
+        <div className="w-1 h-1 bg-accent-orange rounded-full animate-loading-dot animation-delay-0"></div>
+        <div className="w-1 h-1 bg-accent-orange rounded-full animate-loading-dot animation-delay-100"></div>
+        <div className="w-1 h-1 bg-accent-orange rounded-full animate-loading-dot animation-delay-200"></div>
       </div>
     </div>
   );

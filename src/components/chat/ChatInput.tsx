@@ -60,7 +60,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           </div>
 
           {/* Send button */}
-          <Button type="submit" disabled={disabled || !message.trim()} className="flex-shrink-0 h-12 w-12 sm:h-11 sm:w-11 bg-accent-blue hover:bg-accent-blue/90 text-white disabled:bg-bg-panel disabled:text-text-secondary">
+          <Button type="submit" disabled={disabled || !message.trim()} className="flex-shrink-0 h-12 w-12 sm:h-11 sm:w-11 bg-accent-orange hover:bg-accent-orange/90 text-white disabled:bg-bg-panel disabled:text-text-secondary">
             {disabled ? <div className="w-5 h-5 sm:w-4 sm:h-4 border-2 border-text-secondary/20 border-t-text-secondary/60 rounded-full animate-spin"></div> : <Send className="w-5 h-5 sm:w-4 sm:h-4" />}
           </Button>
         </form>

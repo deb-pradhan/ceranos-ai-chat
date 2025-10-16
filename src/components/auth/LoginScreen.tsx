@@ -95,7 +95,7 @@ export const LoginScreen: React.FC = () => {
             </div>
             <Button
               type="submit"
-              className="w-full bg-accent-blue hover:bg-accent-blue/90 text-white"
+              className="w-full bg-accent-orange hover:bg-accent-orange/90 text-white"
               disabled={isLoading || !email.trim()}
             >
               {isLoading ? (
@@ -115,7 +115,7 @@ export const LoginScreen: React.FC = () => {
             <Button
               type="button"
               variant="link"
-              className="w-full text-text-secondary hover:text-accent-blue"
+              className="w-full text-text-secondary hover:text-accent-orange"
               onClick={handleBackToDocs}
             >
               Back to docs

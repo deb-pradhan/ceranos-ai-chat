@@ -59,7 +59,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             <details className="mb-6">
-              <summary className="cursor-pointer text-accent-blue font-medium mb-3 hover:underline">
+              <summary className="cursor-pointer text-accent-orange font-medium mb-3 hover:underline">
                 View Technical Details
               </summary>
               <div className="space-y-4">
@@ -83,7 +83,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3">
               <button
                 onClick={() => window.location.reload()}
-                className="px-6 py-3 bg-accent-blue text-white hover:bg-accent-blue/90 font-medium transition-smooth"
+                className="px-6 py-3 bg-accent-orange text-white hover:bg-accent-orange/90 font-medium transition-smooth"
               >
                 Reload Application
               </button>

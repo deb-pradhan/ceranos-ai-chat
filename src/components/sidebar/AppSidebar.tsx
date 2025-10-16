@@ -70,7 +70,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
       <div className="p-4">
         <Button
           onClick={handleNewChat}
-          className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-11' : ''}`}
+          className={`w-full bg-accent-orange hover:bg-accent-orange/90 text-white ${isMobile ? 'h-11' : ''}`}
         >
           <Plus className="w-4 h-4 mr-2" />
           New Chat
@@ -111,7 +111,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
                   key={chat.id}
                   className={`group relative flex items-center ${isMobile ? 'p-2.5' : 'p-3'} cursor-pointer transition-smooth hover:bg-bg-base ${
                     selectedChatId === chat.id 
-                      ? 'bg-bg-base border-l-2 border-l-accent-blue' 
+                      ? 'bg-bg-base border-l-2 border-l-accent-orange' 
                       : ''
                   }`}
                   onClick={() => onSelectChat(chat.id)}
@@ -200,7 +200,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
             </div>
             <Button
               onClick={() => setShowLoginPopup(true)}
-              className={`w-full bg-accent-blue hover:bg-accent-blue/90 text-white ${isMobile ? 'h-10' : ''}`}
+              className={`w-full bg-accent-orange hover:bg-accent-orange/90 text-white ${isMobile ? 'h-10' : ''}`}
             >
               <LogIn className="w-4 h-4 mr-2" />
               Sign In
