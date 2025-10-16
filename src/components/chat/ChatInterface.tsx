@@ -8,7 +8,7 @@ import { LoginPopup } from '@/components/auth/LoginPopup';
 import { useChatHistory } from '@/hooks/useChatHistory';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { ensureUnifiedMCPConnection, getUnifiedMCPManager } from '@/utils/unifiedMCPManager';
+import { getSimpleMockMCPConnection } from '@/utils/simpleMockMCPClient';
 
 interface Message {
   id: number;
@@ -82,23 +82,18 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       const { streamC1ResponseWithMCP } = await import('@/utils/streamingUtils');
       
-      // Ensure unified MCP connection and get available tools from all sources
-      let mcpTools: any[] = [];
-      try {
-        const mcpManager = await ensureUnifiedMCPConnection();
-        const availableTools = mcpManager.getAllTools();
-        mcpTools = availableTools.map(tool => ({
-          type: 'function' as const,
-          function: {
-            name: `${tool.source}_${tool.name}`,
-            description: `[${tool.source.toUpperCase()}] ${tool.description}`,
-            parameters: tool.inputSchema,
-          },
-        }));
-        console.log('[ChatInterface] Unified MCP tools available:', mcpTools.map(t => t.function.name));
-      } catch (mcpError) {
-        console.warn('[ChatInterface] Unified MCP connection failed, continuing without tools:', mcpError);
-      }
+      // Get mock MCP tools instantly - NO ASYNC INITIALIZATION
+      const mcpManager = getSimpleMockMCPConnection();
+      const availableTools = mcpManager.getAllTools();
+      const mcpTools = availableTools.map(tool => ({
+        type: 'function' as const,
+        function: {
+          name: `${tool.source}_${tool.name}`, // Prefix with source to avoid conflicts
+          description: `[${tool.source.toUpperCase()}] ${tool.description}`,
+          parameters: tool.inputSchema,
+        },
+      }));
+      console.log('[ChatInterface] Mock MCP tools available:', mcpTools.map(t => t.function.name));
       
       let fullText = '';
       let pendingToolCalls: any[] = [];
@@ -125,7 +120,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Execute any pending tool calls
       if (pendingToolCalls.length > 0) {
         console.log('[ChatInterface] Executing', pendingToolCalls.length, 'tool calls');
-        const mcpManager = getUnifiedMCPManager();
         
         for (const toolCall of pendingToolCalls) {
           try {
@@ -144,7 +138,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               actualToolName = toolName.replace('coingecko_', '');
             } else {
               // Fallback: try to find the tool in available tools
-              const availableTools = mcpManager.getAllTools();
               const foundTool = availableTools.find(t => t.name === toolName);
               if (foundTool) {
                 source = foundTool.source;
