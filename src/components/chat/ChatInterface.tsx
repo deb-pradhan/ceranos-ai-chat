@@ -8,7 +8,7 @@ import { LoginPopup } from '@/components/auth/LoginPopup';
 import { useChatHistory } from '@/hooks/useChatHistory';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { ensureMCPConnection, getMCPClient } from '@/utils/mcpClient';
+import { ensureUnifiedMCPConnection, getUnifiedMCPManager } from '@/utils/unifiedMCPManager';
 
 interface Message {
   id: number;
@@ -82,22 +82,22 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       const { streamC1ResponseWithMCP } = await import('@/utils/streamingUtils');
       
-      // Ensure MCP connection and get available tools
+      // Ensure unified MCP connection and get available tools from all sources
       let mcpTools: any[] = [];
       try {
-        const mcpClient = await ensureMCPConnection();
-        const availableTools = mcpClient.getAvailableTools();
+        const mcpManager = await ensureUnifiedMCPConnection();
+        const availableTools = mcpManager.getAllTools();
         mcpTools = availableTools.map(tool => ({
           type: 'function' as const,
           function: {
-            name: tool.name,
-            description: tool.description,
+            name: `${tool.source}_${tool.name}`,
+            description: `[${tool.source.toUpperCase()}] ${tool.description}`,
             parameters: tool.inputSchema,
           },
         }));
-        console.log('[ChatInterface] MCP tools available:', mcpTools.map(t => t.function.name));
+        console.log('[ChatInterface] Unified MCP tools available:', mcpTools.map(t => t.function.name));
       } catch (mcpError) {
-        console.warn('[ChatInterface] MCP connection failed, continuing without tools:', mcpError);
+        console.warn('[ChatInterface] Unified MCP connection failed, continuing without tools:', mcpError);
       }
       
       let fullText = '';
@@ -125,21 +125,47 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Execute any pending tool calls
       if (pendingToolCalls.length > 0) {
         console.log('[ChatInterface] Executing', pendingToolCalls.length, 'tool calls');
-        const mcpClient = getMCPClient();
+        const mcpManager = getUnifiedMCPManager();
         
         for (const toolCall of pendingToolCalls) {
           try {
             const args = JSON.parse(toolCall.function.arguments);
-            const result = await mcpClient.runTool({
+            
+            // Determine source from tool name prefix
+            const toolName = toolCall.function.name;
+            let source: 'jlabs' | 'coingecko';
+            let actualToolName: string;
+            
+            if (toolName.startsWith('jlabs_')) {
+              source = 'jlabs';
+              actualToolName = toolName.replace('jlabs_', '');
+            } else if (toolName.startsWith('coingecko_')) {
+              source = 'coingecko';
+              actualToolName = toolName.replace('coingecko_', '');
+            } else {
+              // Fallback: try to find the tool in available tools
+              const availableTools = mcpManager.getAllTools();
+              const foundTool = availableTools.find(t => t.name === toolName);
+              if (foundTool) {
+                source = foundTool.source;
+                actualToolName = toolName;
+              } else {
+                throw new Error(`Unknown tool: ${toolName}`);
+              }
+            }
+            
+            const result = await mcpManager.runTool({
               tool_call_id: toolCall.id,
-              name: toolCall.function.name,
+              name: actualToolName,
               args: args,
+              source: source,
             });
             
             console.log('[ChatInterface] Tool result:', result);
-            // Append tool result to the response
-            fullText += `\n\n[Tool Result: ${toolCall.function.name}]\n${result.content}`;
-            onChunk(`\n\n[Tool Result: ${toolCall.function.name}]\n${result.content}`);
+            // Append tool result to the response with source info
+            const toolResultMsg = `\n\n[${source.toUpperCase()} Tool Result: ${actualToolName}]\n${result.content}`;
+            fullText += toolResultMsg;
+            onChunk(toolResultMsg);
           } catch (toolError) {
             console.error('[ChatInterface] Tool execution failed:', toolError);
             const errorMsg = `\n\n[Tool Error: ${toolCall.function.name}]\n${toolError instanceof Error ? toolError.message : 'Unknown error'}`;
