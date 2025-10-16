@@ -261,7 +261,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      <div className={`fixed bottom-0 right-0 z-10 backdrop-blur-sm ${isSidebarOpen ? 'left-0 lg:left-64' : 'left-0'}`}>
+      <div className="absolute bottom-0 left-0 right-0 z-10">
         <ChatInput 
           onSendMessage={handleSendMessage}
           disabled={isLoading}

@@ -42,7 +42,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     // Future: File attachment functionality
     console.log('Attachments clicked (future feature)');
   };
-  return <div className="border-t border-border-line bg-bg-base/95 shadow-lg">
+  return <div className="border-t border-border-line bg-bg-base/95 backdrop-blur-sm shadow-lg">
       <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
         <form onSubmit={handleSubmit} className="flex items-end gap-2 sm:gap-3">
           {/* Attachment button (future) */}
