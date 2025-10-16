@@ -66,7 +66,7 @@ export const MessageList: React.FC<MessageListProps> = ({
       >
         <div className="flex items-start gap-3 md:gap-4">
           {/* Avatar */}
-          <div className={`flex-shrink-0 w-7 h-7 md:w-8 md:h-8 ${isUser ? 'bg-accent-orange/10 text-accent-orange rounded-full flex items-center justify-center' : ''}`}>
+          <div className={`flex-shrink-0 w-9 h-9 md:w-10 md:h-10 ${isUser ? 'bg-accent-orange/10 text-accent-orange rounded-full flex items-center justify-center' : ''}`}>
             {isUser ? <User className="w-3 h-3 md:w-4 md:h-4" /> : <img src={brownstoneBot} alt="Brownstone Bot" className="w-full h-full object-contain" />}
           </div>
 
@@ -128,7 +128,7 @@ export const MessageList: React.FC<MessageListProps> = ({
     return (
       <div className="flex-1 flex items-center justify-center text-text-secondary">
         <div className="text-center border-l-2 border-l-accent-orange/20 p-8">
-          <img src={brownstoneBot} alt="Brownstone Bot" className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          <img src={brownstoneBot} alt="Brownstone Bot" className="w-16 h-16 mx-auto mb-4 opacity-50" />
           <p className="text-lg font-medium">Ready to analyze the markets</p>
           <p className="text-sm">Ask me anything about crypto trends, sentiment, or on-chain data</p>
         </div>
@@ -145,7 +145,7 @@ export const MessageList: React.FC<MessageListProps> = ({
         {loadingPhase && (
           <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-orange/20 animate-fade-in-up">
             <div className="flex items-start gap-3 md:gap-4">
-              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8">
+              <div className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10">
                 <img src={brownstoneBot} alt="Brownstone Bot" className="w-full h-full object-contain" />
               </div>
               <div className="flex-1 min-w-0">
@@ -165,7 +165,7 @@ export const MessageList: React.FC<MessageListProps> = ({
         {streamingContent && (
           <div className="px-4 md:px-6 py-4 md:py-6 message-assistant bg-bg-panel border-l-2 border-l-accent-orange/20">
             <div className="flex items-start gap-3 md:gap-4">
-              <div className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8">
+              <div className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10">
                 <img src={brownstoneBot} alt="Brownstone Bot" className="w-full h-full object-contain" />
               </div>
               <div className="flex-1 min-w-0">
