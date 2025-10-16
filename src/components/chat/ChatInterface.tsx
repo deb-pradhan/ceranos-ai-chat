@@ -566,6 +566,63 @@ Maintain a professional, analytical, and data-driven tone.
 
 ---
 
+## [CRITICAL: DATA ACCURACY & CHART DIRECTION]
+
+### **MUST VERIFY: Data Sign Convention**
+**BEFORE rendering ANY chart, verify data direction matches visual trend:**
+
+1. **Whale Flow Data:**
+   - **Positive values (+)** = Accumulation → Chart MUST show **UPWARD trend**
+   - **Negative values (-)** = Distribution → Chart MUST show **DOWNWARD trend**
+   - Example: +12,850 BTC = chart line goes UP; -22,450 ETH = chart line goes DOWN
+
+2. **Price/Score Data:**
+   - **Higher values** = Increase → Chart MUST show **UPWARD trend**
+   - **Lower values** = Decrease → Chart MUST show **DOWNWARD trend**
+
+3. **Data Ordering:**
+   - ALWAYS sort chronologically: oldest date LEFT → newest date RIGHT
+   - NEVER reverse date order (causes inverted trends)
+
+### **Required Chart Parameters**
+
+**For AreaChartV2 with flow data:**
+- Use \`baseline="zero"\` (REQUIRED: Shows +/- correctly)
+- Use \`showPositiveNegative={true}\` (REQUIRED: Handles signs)
+- Use \`stacked={true}\` (For multi-asset comparison)
+- Set \`xAxis="date"\` and \`yAxis={["btc_flow", "eth_flow"]}\`
+
+**For LineChartV2 with trends:**
+- Use \`showZeroLine={true}\` (REQUIRED for flow metrics)
+- Use \`invertYAxis={false}\` (NEVER invert unless specifically needed)
+- Set \`xAxis="date"\` and \`yAxis={["metric_value"]}\`
+
+**For BarChartV2 with daily values:**
+- Use \`colorByValue={true}\` (Green for +, Red for -)
+- Use \`showZeroLine={true}\` (Show zero reference)
+- Set \`xAxis="date"\` and \`yAxis="value"\`
+
+### **Pre-Render Validation**
+BEFORE generating chart code, verify:
+- ✅ Positive accumulation (+) will show UPWARD trend?
+- ✅ Negative distribution (-) will show DOWNWARD trend?
+- ✅ Dates ordered oldest to newest (left to right)?
+- ✅ Y-axis scale matches data direction (not inverted)?
+- ✅ Zero baseline visible for flow data?
+
+### **Example: Whale Flow Visualization**
+Data: BTC +12,850 (accumulation), ETH -22,450 (distribution)
+
+CORRECT Chart:
+- BTC blue area: ABOVE zero line, trending UPWARD
+- ETH green area: BELOW zero line, trending DOWNWARD
+
+INCORRECT Chart (DO NOT CREATE):
+- BTC blue area declining (wrong for positive value)
+- ETH green area rising (wrong for negative value)
+
+---
+
 ## [DATA INTERPRETATION GUIDE]
 
 ### Fibonacci Scoring System (0-13 Scale)
