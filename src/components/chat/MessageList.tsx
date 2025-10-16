@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { LoadingIndicator } from './LoadingIndicators';
 import { UIRenderer } from './UIRenderer';
+import { useTheme } from '@/hooks/useTheme';
 
 interface Message {
   id: number;
@@ -27,6 +28,8 @@ export const MessageList: React.FC<MessageListProps> = ({
   isLoading,
   loadingPhase
 }) => {
+  const { theme } = useTheme();
+  
   const copyToClipboard = async (content: string) => {
     try {
       await navigator.clipboard.writeText(content);
@@ -80,7 +83,7 @@ export const MessageList: React.FC<MessageListProps> = ({
             {/* Different rendering for user vs assistant messages */}
             {message.role === 'assistant' ? (
               // For assistant: Use UIRenderer which handles both text and UI specs
-              <UIRenderer uiSpec={message.content} isStreaming={false} />
+              <UIRenderer uiSpec={message.content} isStreaming={false} mode={theme} />
             ) : (
               // For user: Show as plain text
               <div className="prose prose-sm max-w-none text-text-primary">
@@ -170,7 +173,7 @@ export const MessageList: React.FC<MessageListProps> = ({
                   <span className="text-xs text-text-secondary">now</span>
                 </div>
                 {/* Use UIRenderer for streaming - handles both text and UI specs */}
-                <UIRenderer uiSpec={streamingContent} isStreaming={true} />
+                <UIRenderer uiSpec={streamingContent} isStreaming={true} mode={theme} />
               </div>
             </div>
           </div>

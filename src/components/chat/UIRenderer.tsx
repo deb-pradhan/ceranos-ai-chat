@@ -4,9 +4,10 @@ import { C1Component, ThemeProvider } from '@thesysai/genui-sdk';
 interface UIRendererProps {
   uiSpec: any;
   isStreaming?: boolean;
+  mode?: 'light' | 'dark';
 }
 
-export const UIRenderer: React.FC<UIRendererProps> = ({ uiSpec, isStreaming = false }) => {
+export const UIRenderer: React.FC<UIRendererProps> = ({ uiSpec, isStreaming = false, mode = 'light' }) => {
   if (!uiSpec) {
     console.log('[UIRenderer] No uiSpec provided');
     return null;
@@ -24,7 +25,7 @@ export const UIRenderer: React.FC<UIRendererProps> = ({ uiSpec, isStreaming = fa
 
   try {
     return (
-      <ThemeProvider>
+      <ThemeProvider mode={mode}>
         <div className="my-4">
           <C1Component 
             c1Response={uiSpec}
