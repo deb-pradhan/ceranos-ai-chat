@@ -8,7 +8,7 @@ import { LoginPopup } from "@/components/auth/LoginPopup";
 import { useChatHistory } from "@/hooks/useChatHistory";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { getSimpleMockMCPConnection } from "@/utils/simpleMockMCPClient";
+import { getSimpleMockMCPConnection, getSimpleMockMCPManager } from "@/utils/simpleMockMCPClient";
 
 interface Message {
   id: number;
@@ -82,19 +82,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       const { streamC1ResponseWithMCP } = await import("@/utils/streamingUtils");
 
-      // Get mock MCP tools instantly - NO ASYNC INITIALIZATION
+      // Get MCP tools instantly - no initialization needed!
       const mcpManager = getSimpleMockMCPConnection();
       const availableTools = mcpManager.getAllTools();
       const mcpTools = availableTools.map((tool) => ({
         type: "function" as const,
         function: {
-          name: `${tool.source}_${tool.name}`, // Prefix with source to avoid conflicts
+          name: `${tool.source}_${tool.name}`,
           description: `[${tool.source.toUpperCase()}] ${tool.description}`,
           parameters: tool.inputSchema,
         },
       }));
       console.log(
-        "[ChatInterface] Mock MCP tools available:",
+        "[ChatInterface] MCP tools available:",
         mcpTools.map((t) => t.function.name),
       );
 
@@ -127,6 +127,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Execute any pending tool calls
       if (pendingToolCalls.length > 0) {
         console.log("[ChatInterface] Executing", pendingToolCalls.length, "tool calls");
+        const mcpManager = getSimpleMockMCPManager();
 
         for (const toolCall of pendingToolCalls) {
           try {
@@ -134,7 +135,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             // Determine source from tool name prefix
             const toolName = toolCall.function.name;
-            let source: "jlabs" | "coingecko";
+            let source: string;
             let actualToolName: string;
 
             if (toolName.startsWith("jlabs_")) {
@@ -145,6 +146,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               actualToolName = toolName.replace("coingecko_", "");
             } else {
               // Fallback: try to find the tool in available tools
+              const availableTools = mcpManager.getAllTools();
               const foundTool = availableTools.find((t) => t.name === toolName);
               if (foundTool) {
                 source = foundTool.source;
