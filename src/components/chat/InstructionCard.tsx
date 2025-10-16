@@ -55,7 +55,7 @@ export const InstructionCard: React.FC<InstructionCardProps> = ({
     <Card className="mx-4 md:mx-6 mt-4 md:mt-6 mb-4 border-border-line bg-bg-panel">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-base md:text-lg font-semibold text-text-primary">
-          Ask CERANOS about the markets
+          Ask BROWNSTONE about the markets
         </CardTitle>
         <Button
           variant="ghost"

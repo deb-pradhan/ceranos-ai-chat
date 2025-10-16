@@ -39,7 +39,7 @@ export const LoginScreen: React.FC = () => {
         <Card className="w-full max-w-md border-border-line">
           <CardHeader className="text-center space-y-4">
             <div className="mx-auto">
-              <h1 className="text-2xl font-brand text-text-primary">CERANOS</h1>
+              <h1 className="text-2xl font-brand text-text-primary">BROWNSTONE</h1>
             </div>
             <CardTitle className="text-text-primary">Check your email</CardTitle>
             <CardDescription className="text-text-secondary">
@@ -71,7 +71,7 @@ export const LoginScreen: React.FC = () => {
       <Card className="w-full max-w-md border-border-line">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto">
-            <h1 className="text-3xl font-brand text-text-primary">CERANOS</h1>
+            <h1 className="text-3xl font-brand text-text-primary">BROWNSTONE</h1>
           </div>
           <CardTitle className="text-text-primary">Welcome back</CardTitle>
           <CardDescription className="text-text-secondary">

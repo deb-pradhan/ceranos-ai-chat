@@ -114,7 +114,7 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="text-center">
           <DialogTitle className="text-2xl font-bold text-text-primary">
-            Welcome to CERANOS
+            Welcome to BROWNSTONE
           </DialogTitle>
           <DialogDescription className="text-text-secondary">
             {step === 'email' 

@@ -50,7 +50,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
           {/* Message input */}
           <div className="flex-1 relative">
-            <Textarea ref={textareaRef} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={handleKeyDown} placeholder="Ask Ceranos....." disabled={disabled} className="min-h-[52px] sm:min-h-[48px] max-h-28 sm:max-h-24 resize-none border-border-line bg-bg-base text-text-primary placeholder:text-text-secondary focus-visible:ring-focus-ring pr-12 sm:pr-4 text-base sm:text-sm" rows={1} />
+            <Textarea ref={textareaRef} value={message} onChange={e => setMessage(e.target.value)} onKeyDown={handleKeyDown} placeholder="Ask Brownstone....." disabled={disabled} className="min-h-[52px] sm:min-h-[48px] max-h-28 sm:max-h-24 resize-none border-border-line bg-bg-base text-text-primary placeholder:text-text-secondary focus-visible:ring-focus-ring pr-12 sm:pr-4 text-base sm:text-sm" rows={1} />
             <div className="absolute bottom-2 right-2 text-xs sm:text-xs text-text-secondary pointer-events-none">
               <span className="hidden sm:inline">
                 <span className="inline-block mr-1">⏎</span>Send · <span className="inline-block mr-1">⇧⏎</span>New line
@@ -67,7 +67,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
         {/* Help text */}
         <div className="mt-2 text-xs sm:text-xs text-text-secondary">
-          CERANOS can make mistakes. Consider checking important information.
+          BROWNSTONE can make mistakes. Consider checking important information.
         </div>
       </div>
     </div>;
