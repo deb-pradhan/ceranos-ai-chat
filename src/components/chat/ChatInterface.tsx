@@ -8,7 +8,7 @@ import { LoginPopup } from "@/components/auth/LoginPopup";
 import { useChatHistory } from "@/hooks/useChatHistory";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { getSimpleMockMCPConnection, getSimpleMockMCPManager } from "@/utils/simpleMockMCPClient";
+import { getSimpleMockMCPConnection } from "@/utils/simpleMockMCPClient";
 
 interface Message {
   id: number;
@@ -127,7 +127,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Execute any pending tool calls
       if (pendingToolCalls.length > 0) {
         console.log("[ChatInterface] Executing", pendingToolCalls.length, "tool calls");
-        const mcpManager = getSimpleMockMCPManager();
+        const mcpManager = getSimpleMockMCPConnection();
 
         for (const toolCall of pendingToolCalls) {
           try {
@@ -135,7 +135,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             // Determine source from tool name prefix
             const toolName = toolCall.function.name;
-            let source: string;
+            let source: 'jlabs' | 'coingecko';
             let actualToolName: string;
 
             if (toolName.startsWith("jlabs_")) {
