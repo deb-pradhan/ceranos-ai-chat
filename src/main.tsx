@@ -1,3 +1,4 @@
+import './polyfills' // Load polyfills first
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import '@crayonai/react-ui/styles/index.css' // Crayon UI styles for C1 components
