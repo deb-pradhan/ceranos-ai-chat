@@ -239,10 +239,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-bg-base">
+    <div className="relative flex flex-col h-full bg-bg-base">
       <TopBar onToggleSidebar={onToggleSidebar} isSidebarOpen={isSidebarOpen} />
       
-      <div className="flex-1 flex flex-col overflow-y-auto">
+      <div className="flex-1 flex flex-col overflow-y-auto pb-32">
         {showInstructions && (
           <InstructionCard 
             onDismiss={() => setShowInstructions(false)}
@@ -261,7 +261,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex-shrink-0">
+      <div className={`fixed bottom-0 right-0 z-10 backdrop-blur-sm ${isSidebarOpen ? 'left-0 lg:left-64' : 'left-0'}`}>
         <ChatInput 
           onSendMessage={handleSendMessage}
           disabled={isLoading}
