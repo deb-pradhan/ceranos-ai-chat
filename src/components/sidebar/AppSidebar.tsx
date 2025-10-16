@@ -5,6 +5,7 @@ import { FileText, LogOut, MessageSquare, Plus, MoreHorizontal, Trash2, Edit3, L
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { LoginPopup } from '@/components/auth/LoginPopup';
+import brownstoneLogo from '@/assets/brownstone-logo.png';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,7 +64,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
     <div className={`${isMobile ? 'w-80' : 'w-80'} h-full bg-bg-panel border-r border-border-line flex flex-col`}>
       {/* Header */}
       <div className={`h-16 ${isMobile ? 'px-4' : 'px-6'} flex items-center border-b border-border-line`}>
-        <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-brand text-text-primary`}>BROWNSTONE</h1>
+        <img src={brownstoneLogo} alt="Brownstone Research" className="h-8 w-auto" />
       </div>
 
       {/* New Chat Button */}
