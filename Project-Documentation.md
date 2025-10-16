@@ -1,4 +1,4 @@
-# CERANOS AI Chat - Project Documentation
+# Brownstone Research AI Chat - Project Documentation
 
 ## Table of Contents
 - [Overview](#overview)
@@ -20,7 +20,7 @@
 
 ## Overview
 
-CERANOS is a modern AI-powered chat application built with React and Supabase. It features real-time messaging, user authentication, chat history management, and a responsive design optimized for both desktop and mobile devices.
+Brownstone Research AI Chat is a modern AI-powered chat application built with React and Supabase. It features real-time messaging, user authentication, chat history management, and a responsive design optimized for both desktop and mobile devices.
 
 ### Key Features
 - 🤖 AI-powered conversations with streaming responses
@@ -274,6 +274,10 @@ graph TD
 
 ```
 src/
+├── assets/              # Static assets
+│   ├── bot-avatar.png
+│   ├── brownstone-bot.png
+│   └── brownstone-logo.png
 ├── components/           # Reusable UI components
 │   ├── auth/            # Authentication components
 │   │   ├── AuthGuard.tsx
@@ -285,7 +289,8 @@ src/
 │   │   ├── InstructionCard.tsx
 │   │   ├── LoadingIndicators.tsx
 │   │   ├── MessageList.tsx
-│   │   └── TopBar.tsx
+│   │   ├── TopBar.tsx
+│   │   └── UIRenderer.tsx
 │   ├── sidebar/         # Sidebar components
 │   │   └── AppSidebar.tsx
 │   └── ui/             # shadcn/ui components
@@ -309,8 +314,15 @@ src/
 ├── pages/             # Page components
 │   ├── Index.tsx
 │   └── NotFound.tsx
+├── utils/             # Utility modules
+│   ├── coinGeckoMCPClient.ts
+│   ├── mcpClient.ts
+│   ├── simpleMockMCPClient.ts
+│   ├── streamingUtils.ts
+│   └── unifiedMCPManager.ts
 ├── App.tsx            # Main app component
 ├── main.tsx           # App entry point
+├── polyfills.ts       # Browser polyfills
 └── index.css          # Global styles
 ```
 
@@ -357,10 +369,20 @@ erDiagram
 ```
 supabase/
 ├── functions/         # Edge Functions
+│   ├── chat-c1/
+│   │   └── index.ts
 │   └── chat-webhook/
 │       └── index.ts
 ├── migrations/        # Database migrations
 └── config.toml       # Supabase configuration
+```
+
+### Public Assets
+```
+public/
+├── favicon.png           # Brownstone Research logo favicon
+├── robots.txt           # SEO robots configuration
+└── lovable-uploads/     # User uploaded assets
 ```
 
 ## Routes & Navigation
