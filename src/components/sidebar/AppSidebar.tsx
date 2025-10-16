@@ -89,9 +89,9 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ selectedChatId, onSelect
       </div>
 
       {/* Chat History */}
-      <div className={`flex-1 ${isMobile ? 'px-3' : 'px-4'} mt-6`}>
+      <div className={`flex-1 ${isMobile ? 'px-3' : 'px-4'} mt-6 overflow-hidden flex flex-col`}>
         <h3 className="text-sm font-medium text-text-secondary mb-3">Recent Chats</h3>
-        <ScrollArea className="h-full">
+        <ScrollArea className="flex-1">
           {loading ? (
             <div className="space-y-2">
               {[...Array(5)].map((_, i) => (

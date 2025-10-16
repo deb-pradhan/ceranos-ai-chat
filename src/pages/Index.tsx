@@ -43,6 +43,7 @@ const Index = () => {
         
         {/* Sidebar */}
         <div className={`
+          overflow-hidden
           ${isMobile 
             ? `fixed left-0 top-0 h-full z-50 transform transition-transform duration-300 ${
                 isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
