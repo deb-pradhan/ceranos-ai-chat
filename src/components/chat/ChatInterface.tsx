@@ -8,6 +8,7 @@ import { LoginPopup } from '@/components/auth/LoginPopup';
 import { useChatHistory } from '@/hooks/useChatHistory';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { ensureMCPConnection, getMCPClient } from '@/utils/mcpClient';
 
 interface Message {
   id: number;
@@ -79,11 +80,30 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     try {
       console.log('[ChatInterface] Starting stream with', conversationMessages.length, 'messages');
       
-      const { streamC1Response } = await import('@/utils/streamingUtils');
+      const { streamC1ResponseWithMCP } = await import('@/utils/streamingUtils');
+      
+      // Ensure MCP connection and get available tools
+      let mcpTools: any[] = [];
+      try {
+        const mcpClient = await ensureMCPConnection();
+        const availableTools = mcpClient.getAvailableTools();
+        mcpTools = availableTools.map(tool => ({
+          type: 'function' as const,
+          function: {
+            name: tool.name,
+            description: tool.description,
+            parameters: tool.inputSchema,
+          },
+        }));
+        console.log('[ChatInterface] MCP tools available:', mcpTools.map(t => t.function.name));
+      } catch (mcpError) {
+        console.warn('[ChatInterface] MCP connection failed, continuing without tools:', mcpError);
+      }
       
       let fullText = '';
+      let pendingToolCalls: any[] = [];
 
-      await streamC1Response(conversationMessages, (chunk) => {
+      await streamC1ResponseWithMCP(conversationMessages, (chunk) => {
         if (chunk.type === 'text' && chunk.content) {
           fullText += chunk.content;
           onChunk(chunk.content);
@@ -92,11 +112,42 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           if (fullText.length % 100 < chunk.content.length) {
             console.log('[ChatInterface] Accumulated', fullText.length, 'chars');
           }
+        } else if (chunk.type === 'tool_call' && chunk.toolCalls) {
+          // Handle tool calls
+          console.log('[ChatInterface] Tool calls received:', chunk.toolCalls);
+          pendingToolCalls.push(...chunk.toolCalls);
         } else if (chunk.type === 'error') {
           console.error('[ChatInterface] Stream error:', chunk.error);
           throw new Error(chunk.error || 'Stream error');
         }
-      });
+      }, mcpTools);
+
+      // Execute any pending tool calls
+      if (pendingToolCalls.length > 0) {
+        console.log('[ChatInterface] Executing', pendingToolCalls.length, 'tool calls');
+        const mcpClient = getMCPClient();
+        
+        for (const toolCall of pendingToolCalls) {
+          try {
+            const args = JSON.parse(toolCall.function.arguments);
+            const result = await mcpClient.runTool({
+              tool_call_id: toolCall.id,
+              name: toolCall.function.name,
+              args: args,
+            });
+            
+            console.log('[ChatInterface] Tool result:', result);
+            // Append tool result to the response
+            fullText += `\n\n[Tool Result: ${toolCall.function.name}]\n${result.content}`;
+            onChunk(`\n\n[Tool Result: ${toolCall.function.name}]\n${result.content}`);
+          } catch (toolError) {
+            console.error('[ChatInterface] Tool execution failed:', toolError);
+            const errorMsg = `\n\n[Tool Error: ${toolCall.function.name}]\n${toolError instanceof Error ? toolError.message : 'Unknown error'}`;
+            fullText += errorMsg;
+            onChunk(errorMsg);
+          }
+        }
+      }
 
       console.log('[ChatInterface] Stream complete. Total length:', fullText.length);
       console.log('[ChatInterface] Content preview:', fullText.substring(0, 200));

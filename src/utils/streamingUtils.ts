@@ -3,10 +3,18 @@
  */
 
 export interface StreamChunk {
-  type: 'text' | 'ui' | 'done' | 'error';
+  type: 'text' | 'ui' | 'done' | 'error' | 'tool_call';
   content?: string;
   uiSpec?: any;
   error?: string;
+  toolCalls?: Array<{
+    id: string;
+    type: 'function';
+    function: {
+      name: string;
+      arguments: string;
+    };
+  }>;
 }
 
 /**
@@ -92,6 +100,15 @@ function parseSSEChunk(line: string): StreamChunk | null {
       if (data.choices && data.choices[0]) {
         const choice = data.choices[0];
         
+        // Tool calls - NEW: MCP tool calling support
+        if (choice.delta?.tool_calls) {
+          console.log('[SSE Parse] Tool calls received:', choice.delta.tool_calls);
+          return {
+            type: 'tool_call',
+            toolCalls: choice.delta.tool_calls
+          };
+        }
+        
         // Text delta - this is what contains the UI spec as stringified JSON
         if (choice.delta?.content) {
           return {
@@ -119,16 +136,34 @@ function parseSSEChunk(line: string): StreamChunk | null {
 }
 
 /**
- * Stream assistant response from Thesys C1 API
+ * Stream assistant response from Thesys C1 API with MCP tool support
  */
-export async function streamC1Response(
+export async function streamC1ResponseWithMCP(
   messages: Array<{ role: string; content: string }>,
-  onChunk: (chunk: StreamChunk) => void
+  onChunk: (chunk: StreamChunk) => void,
+  mcpTools?: Array<{
+    type: 'function';
+    function: {
+      name: string;
+      description: string;
+      parameters: any;
+    };
+  }>
 ): Promise<void> {
   const CHAT_URL = `https://egqbvpsasbmxcmwzxizv.supabase.co/functions/v1/chat-c1`;
   
   // Use the Supabase anon key directly (it's a public key, safe to include in client code)
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVncWJ2cHNhc2JteGNtd3p4aXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxOTY3OTYsImV4cCI6MjA3MDc3Mjc5Nn0.Lz0rHRgQX1nSJofvjQ_gjYhF8c8XgbVrg2GO7zvu2s8';
+  
+  const requestBody: any = { 
+    messages,
+  };
+  
+  // Add tools if provided
+  if (mcpTools && mcpTools.length > 0) {
+    requestBody.tools = mcpTools;
+    console.log('[StreamingUtils] Sending', mcpTools.length, 'MCP tools to API');
+  }
   
   const response = await fetch(CHAT_URL, {
     method: 'POST',
@@ -136,7 +171,7 @@ export async function streamC1Response(
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!response.ok) {
@@ -152,4 +187,14 @@ export async function streamC1Response(
   for await (const chunk of parseSSEStream(reader)) {
     onChunk(chunk);
   }
+}
+
+/**
+ * Stream assistant response from Thesys C1 API (backward compatible)
+ */
+export async function streamC1Response(
+  messages: Array<{ role: string; content: string }>,
+  onChunk: (chunk: StreamChunk) => void
+): Promise<void> {
+  return streamC1ResponseWithMCP(messages, onChunk);
 }
